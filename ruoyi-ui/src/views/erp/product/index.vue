@@ -60,7 +60,6 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['erp:product:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -71,7 +70,6 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['erp:product:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -82,7 +80,6 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['erp:product:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -114,14 +111,12 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['erp:product:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['erp:product:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -139,19 +134,19 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名称" prop="productName">
-          <el-input v-model="form.productName" placeholder="请输入名称" />
+          <el-input v-model.trim="form.productName" placeholder="请输入名称" />
         </el-form-item>
         <el-form-item label="型号" prop="productModel">
-          <el-input v-model="form.productModel" placeholder="请输入型号" />
+          <el-input v-model.trim="form.productModel" placeholder="请输入型号" />
         </el-form-item>
         <el-form-item label="单位" prop="productUnit">
-          <el-input v-model="form.productUnit" placeholder="请输入单位" />
+          <el-input v-model.trim="form.productUnit" placeholder="请输入单位" />
         </el-form-item>
         <el-form-item label="销售价格" prop="productPrice">
-          <el-input v-model="form.productPrice" placeholder="请输入销售价格" />
+          <el-input v-model.trim="form.productPrice" placeholder="请输入销售价格" />
         </el-form-item>
         <el-form-item label="备注" prop="productRemark">
-          <el-input v-model="form.productRemark" placeholder="请输入备注" />
+          <el-input v-model.trim="form.productRemark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -203,6 +198,28 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        productName: [
+          {required: true, message: "请输入产品名称", triger: "blur"}
+        ],
+        productModel: [
+          {required: true, message: "请输入产品型号", triger: "blur"}
+        ],
+        productUnit: [
+          {required: true, message: "请输入产品单位", triger: "blur"}
+        ],
+        productPrice: [
+          {required: true, message: "请输入销售价格", triger: "blur"},
+          {
+            validator: (rule, value, callback) => {
+              if (value.indexOf('.') > 0) {
+                if (value.split(".")[1].length < 2) callback(new Error('销售价格只能为两位小数'))
+              } else {
+                callback()
+              }
+            },
+            triger: "change"
+          }
+        ],
       }
     };
   },

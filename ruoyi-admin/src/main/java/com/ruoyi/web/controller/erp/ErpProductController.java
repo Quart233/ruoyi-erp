@@ -41,7 +41,7 @@ public class ErpProductController extends BaseController
      * 查询库存产品列表
      */
     @ApiOperation("查询库存产品列表")
-    @PreAuthorize("@ss.hasPermi('erp:product:list')")
+//    @PreAuthorize("@ss.hasPermi('erp:product:list')")
     @GetMapping("/list")
     public TableDataInfo list(ErpProduct erpProduct)
     {
@@ -53,7 +53,7 @@ public class ErpProductController extends BaseController
     /**
      * 导出库存产品列表
      */
-    @PreAuthorize("@ss.hasPermi('erp:product:export')")
+//    @PreAuthorize("@ss.hasPermi('erp:product:export')")
     @Log(title = "库存产品", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(ErpProduct erpProduct)
@@ -66,7 +66,7 @@ public class ErpProductController extends BaseController
     /**
      * 获取库存产品详细信息
      */
-    @PreAuthorize("@ss.hasPermi('erp:product:query')")
+//    @PreAuthorize("@ss.hasPermi('erp:product:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -76,7 +76,7 @@ public class ErpProductController extends BaseController
     /**
      * 新增库存产品
      */
-    @PreAuthorize("@ss.hasPermi('erp:product:add')")
+//    @PreAuthorize("@ss.hasPermi('erp:product:add')")
     @Log(title = "库存产品", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ErpProduct erpProduct)
@@ -87,7 +87,7 @@ public class ErpProductController extends BaseController
     /**
      * 修改库存产品
      */
-    @PreAuthorize("@ss.hasPermi('erp:product:edit')")
+//    @PreAuthorize("@ss.hasPermi('erp:product:edit')")
     @Log(title = "库存产品", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ErpProduct erpProduct)
@@ -98,7 +98,7 @@ public class ErpProductController extends BaseController
     /**
      * 删除库存产品
      */
-    @PreAuthorize("@ss.hasPermi('erp:product:remove')")
+//    @PreAuthorize("@ss.hasPermi('erp:product:remove')")
     @Log(title = "库存产品", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
