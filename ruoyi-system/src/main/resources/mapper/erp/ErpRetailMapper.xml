@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.erp.mapper.ErpRetailMapper">
+    
+    <resultMap type="ErpRetail" id="ErpRetailResult">
+        <result property="id"    column="id"    />
+        <result property="flowId"    column="flow_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="actualPayment"    column="actual_payment"    />
+        <result property="handlerName"    column="handler_name"    />
+        <result property="remark"    column="remark"    />
+        <result property="snUuid"    column="sn_uuid"    />
+    </resultMap>
+
+    <sql id="selectErpRetailVo">
+        select id, flow_id, create_time, actual_payment, handler_name, remark, sn_uuid from erp_retail
+    </sql>
+
+    <select id="selectErpRetailList" parameterType="ErpRetail" resultMap="ErpRetailResult">
+        <include refid="selectErpRetailVo"/>
+        <where>  
+            <if test="flowId != null "> and flow_id = #{flowId}</if>
+            <if test="actualPayment != null "> and actual_payment = #{actualPayment}</if>
+            <if test="handlerName != null  and handlerName != ''"> and handler_name like concat('%', #{handlerName}, '%')</if>
+            <if test="snUuid != null  and snUuid != ''"> and sn_uuid = #{snUuid}</if>
+        </where>
+    </select>
+    
+    <select id="selectErpRetailById" parameterType="Long" resultMap="ErpRetailResult">
+        <include refid="selectErpRetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertErpRetail" parameterType="ErpRetail" useGeneratedKeys="true" keyProperty="id">
+        insert into erp_retail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowId != null">flow_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="actualPayment != null">actual_payment,</if>
+            <if test="handlerName != null">handler_name,</if>
+            <if test="remark != null">remark,</if>
+            <if test="snUuid != null">sn_uuid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowId != null">#{flowId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="actualPayment != null">#{actualPayment},</if>
+            <if test="handlerName != null">#{handlerName},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="snUuid != null">#{snUuid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpRetail" parameterType="ErpRetail">
+        update erp_retail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flowId != null">flow_id = #{flowId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="actualPayment != null">actual_payment = #{actualPayment},</if>
+            <if test="handlerName != null">handler_name = #{handlerName},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="snUuid != null">sn_uuid = #{snUuid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteErpRetailById" parameterType="Long">
+        delete from erp_retail where id = #{id}
+    </delete>
+
+    <delete id="deleteErpRetailByIds" parameterType="String">
+        delete from erp_retail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

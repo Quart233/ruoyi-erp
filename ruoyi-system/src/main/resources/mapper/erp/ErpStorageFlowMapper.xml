@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.erp.mapper.ErpStorageFlowMapper">
+    
+    <resultMap type="ErpStorageFlow" id="ErpStorageFlowResult">
+        <result property="id"    column="id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="amount"    column="amount"    />
+        <result property="type"    column="type"    />
+        <result property="price"    column="price"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectErpStorageFlowVo">
+        select id, product_id, amount, type, price, remark from erp_storage_flow
+    </sql>
+
+    <select id="selectErpStorageFlowList" parameterType="ErpStorageFlow" resultMap="ErpStorageFlowResult">
+        <include refid="selectErpStorageFlowVo"/>
+        <where>  
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="amount != null "> and amount = #{amount}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="price != null "> and price = #{price}</if>
+        </where>
+    </select>
+    
+    <select id="selectErpStorageFlowById" parameterType="Long" resultMap="ErpStorageFlowResult">
+        <include refid="selectErpStorageFlowVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertErpStorageFlow" parameterType="ErpStorageFlow" useGeneratedKeys="true" keyProperty="id">
+        insert into erp_storage_flow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">product_id,</if>
+            <if test="amount != null">amount,</if>
+            <if test="type != null">type,</if>
+            <if test="price != null">price,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="type != null">#{type},</if>
+            <if test="price != null">#{price},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpStorageFlow" parameterType="ErpStorageFlow">
+        update erp_storage_flow
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteErpStorageFlowById" parameterType="Long">
+        delete from erp_storage_flow where id = #{id}
+    </delete>
+
+    <delete id="deleteErpStorageFlowByIds" parameterType="String">
+        delete from erp_storage_flow where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

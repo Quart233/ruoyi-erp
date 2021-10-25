@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.erp.mapper.ErpClientMapper">
+    
+    <resultMap type="ErpClient" id="ErpClientResult">
+        <result property="id"    column="id"    />
+        <result property="clientNickname"    column="client_nickname"    />
+        <result property="clientPhone"    column="client_phone"    />
+        <result property="shippingAddress"    column="shipping_address"    />
+        <result property="gender"    column="gender"    />
+    </resultMap>
+
+    <sql id="selectErpClientVo">
+        select id, client_nickname, client_phone, shipping_address, gender from erp_client
+    </sql>
+
+    <select id="selectErpClientList" parameterType="ErpClient" resultMap="ErpClientResult">
+        <include refid="selectErpClientVo"/>
+        <where>  
+            <if test="clientNickname != null  and clientNickname != ''"> and client_nickname like concat('%', #{clientNickname}, '%')</if>
+            <if test="clientPhone != null  and clientPhone != ''"> and client_phone = #{clientPhone}</if>
+            <if test="shippingAddress != null  and shippingAddress != ''"> and shipping_address = #{shippingAddress}</if>
+            <if test="gender != null "> and gender = #{gender}</if>
+        </where>
+    </select>
+    
+    <select id="selectErpClientById" parameterType="Long" resultMap="ErpClientResult">
+        <include refid="selectErpClientVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertErpClient" parameterType="ErpClient" useGeneratedKeys="true" keyProperty="id">
+        insert into erp_client
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clientNickname != null">client_nickname,</if>
+            <if test="clientPhone != null">client_phone,</if>
+            <if test="shippingAddress != null">shipping_address,</if>
+            <if test="gender != null">gender,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clientNickname != null">#{clientNickname},</if>
+            <if test="clientPhone != null">#{clientPhone},</if>
+            <if test="shippingAddress != null">#{shippingAddress},</if>
+            <if test="gender != null">#{gender},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpClient" parameterType="ErpClient">
+        update erp_client
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clientNickname != null">client_nickname = #{clientNickname},</if>
+            <if test="clientPhone != null">client_phone = #{clientPhone},</if>
+            <if test="shippingAddress != null">shipping_address = #{shippingAddress},</if>
+            <if test="gender != null">gender = #{gender},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteErpClientById" parameterType="Long">
+        delete from erp_client where id = #{id}
+    </delete>
+
+    <delete id="deleteErpClientByIds" parameterType="String">
+        delete from erp_client where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

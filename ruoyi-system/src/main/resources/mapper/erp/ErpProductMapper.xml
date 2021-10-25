@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.erp.mapper.ErpProductMapper">
+    
+    <resultMap type="ErpProduct" id="ErpProductResult">
+        <result property="id"    column="id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="productModel"    column="product_model"    />
+        <result property="productUnit"    column="product_unit"    />
+        <result property="productPrice"    column="product_price"    />
+        <result property="productRemark"    column="product_remark"    />
+    </resultMap>
+
+    <sql id="selectErpProductVo">
+        select id, product_name, product_model, product_unit, product_price, product_remark from erp_product
+    </sql>
+
+    <select id="selectErpProductList" parameterType="ErpProduct" resultMap="ErpProductResult">
+        <include refid="selectErpProductVo"/>
+        <where>  
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="productModel != null  and productModel != ''"> and product_model = #{productModel}</if>
+            <if test="productUnit != null  and productUnit != ''"> and product_unit = #{productUnit}</if>
+            <if test="productPrice != null "> and product_price = #{productPrice}</if>
+            <if test="productRemark != null  and productRemark != ''"> and product_remark = #{productRemark}</if>
+        </where>
+    </select>
+    
+    <select id="selectErpProductById" parameterType="Long" resultMap="ErpProductResult">
+        <include refid="selectErpProductVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertErpProduct" parameterType="ErpProduct" useGeneratedKeys="true" keyProperty="id">
+        insert into erp_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productName != null">product_name,</if>
+            <if test="productModel != null">product_model,</if>
+            <if test="productUnit != null">product_unit,</if>
+            <if test="productPrice != null">product_price,</if>
+            <if test="productRemark != null">product_remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productName != null">#{productName},</if>
+            <if test="productModel != null">#{productModel},</if>
+            <if test="productUnit != null">#{productUnit},</if>
+            <if test="productPrice != null">#{productPrice},</if>
+            <if test="productRemark != null">#{productRemark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpProduct" parameterType="ErpProduct">
+        update erp_product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productName != null">product_name = #{productName},</if>
+            <if test="productModel != null">product_model = #{productModel},</if>
+            <if test="productUnit != null">product_unit = #{productUnit},</if>
+            <if test="productPrice != null">product_price = #{productPrice},</if>
+            <if test="productRemark != null">product_remark = #{productRemark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteErpProductById" parameterType="Long">
+        delete from erp_product where id = #{id}
+    </delete>
+
+    <delete id="deleteErpProductByIds" parameterType="String">
+        delete from erp_product where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

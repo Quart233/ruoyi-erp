@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.erp.mapper.ErpOrderMapper">
+    
+    <resultMap type="ErpOrder" id="ErpOrderResult">
+        <result property="id"    column="id"    />
+        <result property="detailId"    column="detail_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="taxInfoId"    column="tax_info_id"    />
+        <result property="totalPrice"    column="total_price"    />
+        <result property="actualPayment"    column="actual_payment"    />
+        <result property="handlerName"    column="handler_name"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectErpOrderVo">
+        select id, detail_id, create_time, tax_info_id, total_price, actual_payment, handler_name, client_id, remark from erp_order
+    </sql>
+
+    <select id="selectErpOrderList" parameterType="ErpOrder" resultMap="ErpOrderResult">
+        <include refid="selectErpOrderVo"/>
+        <where>  
+            <if test="detailId != null "> and detail_id = #{detailId}</if>
+            <if test="taxInfoId != null "> and tax_info_id = #{taxInfoId}</if>
+            <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
+            <if test="actualPayment != null "> and actual_payment = #{actualPayment}</if>
+            <if test="handlerName != null  and handlerName != ''"> and handler_name like concat('%', #{handlerName}, '%')</if>
+            <if test="clientId != null "> and client_id = #{clientId}</if>
+        </where>
+    </select>
+    
+    <select id="selectErpOrderById" parameterType="Long" resultMap="ErpOrderResult">
+        <include refid="selectErpOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertErpOrder" parameterType="ErpOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into erp_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="detailId != null">detail_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="taxInfoId != null">tax_info_id,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="actualPayment != null">actual_payment,</if>
+            <if test="handlerName != null">handler_name,</if>
+            <if test="clientId != null">client_id,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="detailId != null">#{detailId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="taxInfoId != null">#{taxInfoId},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="actualPayment != null">#{actualPayment},</if>
+            <if test="handlerName != null">#{handlerName},</if>
+            <if test="clientId != null">#{clientId},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpOrder" parameterType="ErpOrder">
+        update erp_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="detailId != null">detail_id = #{detailId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="taxInfoId != null">tax_info_id = #{taxInfoId},</if>
+            <if test="totalPrice != null">total_price = #{totalPrice},</if>
+            <if test="actualPayment != null">actual_payment = #{actualPayment},</if>
+            <if test="handlerName != null">handler_name = #{handlerName},</if>
+            <if test="clientId != null">client_id = #{clientId},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteErpOrderById" parameterType="Long">
+        delete from erp_order where id = #{id}
+    </delete>
+
+    <delete id="deleteErpOrderByIds" parameterType="String">
+        delete from erp_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

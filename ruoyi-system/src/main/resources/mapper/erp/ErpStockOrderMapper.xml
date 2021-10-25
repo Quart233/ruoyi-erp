@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.erp.mapper.ErpStockOrderMapper">
+    
+    <resultMap type="ErpStockOrder" id="ErpStockOrderResult">
+        <result property="id"    column="id"    />
+        <result property="flowId"    column="flow_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="totalPrice"    column="total_price"    />
+        <result property="actualPayment"    column="actual_payment"    />
+        <result property="supplierName"    column="supplier_name"    />
+        <result property="handlerName"    column="handler_name"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectErpStockOrderVo">
+        select id, flow_id, create_time, total_price, actual_payment, supplier_name, handler_name, remark from erp_stock_order
+    </sql>
+
+    <select id="selectErpStockOrderList" parameterType="ErpStockOrder" resultMap="ErpStockOrderResult">
+        <include refid="selectErpStockOrderVo"/>
+        <where>  
+            <if test="flowId != null "> and flow_id = #{flowId}</if>
+            <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
+            <if test="actualPayment != null "> and actual_payment = #{actualPayment}</if>
+            <if test="supplierName != null  and supplierName != ''"> and supplier_name like concat('%', #{supplierName}, '%')</if>
+            <if test="handlerName != null  and handlerName != ''"> and handler_name like concat('%', #{handlerName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectErpStockOrderById" parameterType="Long" resultMap="ErpStockOrderResult">
+        <include refid="selectErpStockOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertErpStockOrder" parameterType="ErpStockOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into erp_stock_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flowId != null">flow_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="actualPayment != null">actual_payment,</if>
+            <if test="supplierName != null">supplier_name,</if>
+            <if test="handlerName != null">handler_name,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flowId != null">#{flowId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="actualPayment != null">#{actualPayment},</if>
+            <if test="supplierName != null">#{supplierName},</if>
+            <if test="handlerName != null">#{handlerName},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpStockOrder" parameterType="ErpStockOrder">
+        update erp_stock_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flowId != null">flow_id = #{flowId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="totalPrice != null">total_price = #{totalPrice},</if>
+            <if test="actualPayment != null">actual_payment = #{actualPayment},</if>
+            <if test="supplierName != null">supplier_name = #{supplierName},</if>
+            <if test="handlerName != null">handler_name = #{handlerName},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteErpStockOrderById" parameterType="Long">
+        delete from erp_stock_order where id = #{id}
+    </delete>
+
+    <delete id="deleteErpStockOrderByIds" parameterType="String">
+        delete from erp_stock_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

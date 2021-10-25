@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.erp.mapper.ErpProductSnMapper">
+    
+    <resultMap type="ErpProductSn" id="ErpProductSnResult">
+        <result property="snUuid"    column="sn_uuid"    />
+        <result property="snCode"    column="sn_code"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="productId"    column="product_id"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectErpProductSnVo">
+        select sn_uuid, sn_code, create_time, product_id, status from erp_product_sn
+    </sql>
+
+    <select id="selectErpProductSnList" parameterType="ErpProductSn" resultMap="ErpProductSnResult">
+        <include refid="selectErpProductSnVo"/>
+        <where>  
+            <if test="snCode != null  and snCode != ''"> and sn_code = #{snCode}</if>
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectErpProductSnBySnUuid" parameterType="String" resultMap="ErpProductSnResult">
+        <include refid="selectErpProductSnVo"/>
+        where sn_uuid = #{snUuid}
+    </select>
+        
+    <insert id="insertErpProductSn" parameterType="ErpProductSn">
+        insert into erp_product_sn
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="snUuid != null">sn_uuid,</if>
+            <if test="snCode != null">sn_code,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="snUuid != null">#{snUuid},</if>
+            <if test="snCode != null">#{snCode},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpProductSn" parameterType="ErpProductSn">
+        update erp_product_sn
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="snCode != null">sn_code = #{snCode},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where sn_uuid = #{snUuid}
+    </update>
+
+    <delete id="deleteErpProductSnBySnUuid" parameterType="String">
+        delete from erp_product_sn where sn_uuid = #{snUuid}
+    </delete>
+
+    <delete id="deleteErpProductSnBySnUuids" parameterType="String">
+        delete from erp_product_sn where sn_uuid in 
+        <foreach item="snUuid" collection="array" open="(" separator="," close=")">
+            #{snUuid}
+        </foreach>
+    </delete>
+</mapper>

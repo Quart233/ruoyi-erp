@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.erp.mapper.ErpTagsMapMapper">
+    
+    <resultMap type="ErpTagsMap" id="ErpTagsMapResult">
+        <result property="tagUuid"    column="tag_uuid"    />
+        <result property="productId"    column="product_id"    />
+    </resultMap>
+
+    <sql id="selectErpTagsMapVo">
+        select tag_uuid, product_id from erp_tags_map
+    </sql>
+
+    <select id="selectErpTagsMapList" parameterType="ErpTagsMap" resultMap="ErpTagsMapResult">
+        <include refid="selectErpTagsMapVo"/>
+        <where>  
+            <if test="tagUuid != null  and tagUuid != ''"> and tag_uuid = #{tagUuid}</if>
+            <if test="productId != null  and productId != ''"> and product_id = #{productId}</if>
+        </where>
+    </select>
+    
+    <select id="selectErpTagsMapByTagUuid" parameterType="String" resultMap="ErpTagsMapResult">
+        <include refid="selectErpTagsMapVo"/>
+        where tag_uuid = #{tagUuid}
+    </select>
+        
+    <insert id="insertErpTagsMap" parameterType="ErpTagsMap">
+        insert into erp_tags_map
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tagUuid != null">tag_uuid,</if>
+            <if test="productId != null">product_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tagUuid != null">#{tagUuid},</if>
+            <if test="productId != null">#{productId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpTagsMap" parameterType="ErpTagsMap">
+        update erp_tags_map
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+        </trim>
+        where tag_uuid = #{tagUuid}
+    </update>
+
+    <delete id="deleteErpTagsMapByTagUuid" parameterType="String">
+        delete from erp_tags_map where tag_uuid = #{tagUuid}
+    </delete>
+
+    <delete id="deleteErpTagsMapByTagUuids" parameterType="String">
+        delete from erp_tags_map where tag_uuid in 
+        <foreach item="tagUuid" collection="array" open="(" separator="," close=")">
+            #{tagUuid}
+        </foreach>
+    </delete>
+</mapper>

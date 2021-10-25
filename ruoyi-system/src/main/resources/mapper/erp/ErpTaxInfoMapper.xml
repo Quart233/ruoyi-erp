@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.erp.mapper.ErpTaxInfoMapper">
+    
+    <resultMap type="ErpTaxInfo" id="ErpTaxInfoResult">
+        <result property="id"    column="id"    />
+        <result property="taxpayerId"    column="taxpayer_id"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="companyAddress"    column="company_address"    />
+        <result property="contactTel"    column="contact_tel"    />
+        <result property="bankAccount"    column="bank_account"    />
+        <result property="depositBank"    column="deposit_bank"    />
+    </resultMap>
+
+    <sql id="selectErpTaxInfoVo">
+        select id, taxpayer_id, company_name, company_address, contact_tel, bank_account, deposit_bank from erp_tax_info
+    </sql>
+
+    <select id="selectErpTaxInfoList" parameterType="ErpTaxInfo" resultMap="ErpTaxInfoResult">
+        <include refid="selectErpTaxInfoVo"/>
+        <where>  
+            <if test="taxpayerId != null "> and taxpayer_id = #{taxpayerId}</if>
+            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
+            <if test="companyAddress != null  and companyAddress != ''"> and company_address = #{companyAddress}</if>
+            <if test="contactTel != null  and contactTel != ''"> and contact_tel = #{contactTel}</if>
+            <if test="bankAccount != null  and bankAccount != ''"> and bank_account = #{bankAccount}</if>
+            <if test="depositBank != null  and depositBank != ''"> and deposit_bank = #{depositBank}</if>
+        </where>
+    </select>
+    
+    <select id="selectErpTaxInfoById" parameterType="Long" resultMap="ErpTaxInfoResult">
+        <include refid="selectErpTaxInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertErpTaxInfo" parameterType="ErpTaxInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into erp_tax_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taxpayerId != null">taxpayer_id,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="companyAddress != null">company_address,</if>
+            <if test="contactTel != null">contact_tel,</if>
+            <if test="bankAccount != null">bank_account,</if>
+            <if test="depositBank != null">deposit_bank,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taxpayerId != null">#{taxpayerId},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="companyAddress != null">#{companyAddress},</if>
+            <if test="contactTel != null">#{contactTel},</if>
+            <if test="bankAccount != null">#{bankAccount},</if>
+            <if test="depositBank != null">#{depositBank},</if>
+         </trim>
+    </insert>
+
+    <update id="updateErpTaxInfo" parameterType="ErpTaxInfo">
+        update erp_tax_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taxpayerId != null">taxpayer_id = #{taxpayerId},</if>
+            <if test="companyName != null">company_name = #{companyName},</if>
+            <if test="companyAddress != null">company_address = #{companyAddress},</if>
+            <if test="contactTel != null">contact_tel = #{contactTel},</if>
+            <if test="bankAccount != null">bank_account = #{bankAccount},</if>
+            <if test="depositBank != null">deposit_bank = #{depositBank},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteErpTaxInfoById" parameterType="Long">
+        delete from erp_tax_info where id = #{id}
+    </delete>
+
+    <delete id="deleteErpTaxInfoByIds" parameterType="String">
+        delete from erp_tax_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
