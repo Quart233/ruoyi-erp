@@ -2,9 +2,10 @@ package com.ruoyi.web.controller.erp;
 
 import java.util.List;
 
+import com.ruoyi.erp.domain.ErpTags;
+import com.ruoyi.erp.service.IErpTagsMapService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,9 @@ public class ErpProductController extends BaseController
     @Autowired
     private IErpProductService erpProductService;
 
+    @Autowired
+    private IErpTagsMapService erpTagsMapService;
+
     /**
      * 查询库存产品列表
      */
@@ -47,6 +51,12 @@ public class ErpProductController extends BaseController
     {
         startPage();
         List<ErpProduct> list = erpProductService.selectErpProductList(erpProduct);
+        list.stream().map(item -> {
+            List<ErpTags> erpTagsList = erpTagsMapService.selectProductTagListByProdProductID(item.getId());
+            System.out.println(erpTagsList.toString());
+//            List<ErpTagsMap> erpTagsMap = erpTagsMapService.selectErpTagsMapListByProductID(item.getId());
+//            System.out.println(erpTagsMap.toString());
+        });
         return getDataTable(list);
     }
 

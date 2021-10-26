@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectErpTagsMapList" parameterType="ErpTagsMap" resultMap="ErpTagsMapResult">
         <include refid="selectErpTagsMapVo"/>
-        <where>  
+        <where>
             <if test="tagUuid != null  and tagUuid != ''"> and tag_uuid = #{tagUuid}</if>
             <if test="productId != null  and productId != ''"> and product_id = #{productId}</if>
         </where>
@@ -25,7 +25,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectErpTagsMapVo"/>
         where tag_uuid = #{tagUuid}
     </select>
-        
+
+    <select id="selectErpTagsMapListByProductID" parameterType="long" resultMap="ErpTagsMapResult">
+        <include refid="selectErpTagsMapVo"/>
+        <where> and product_id = #{productID}</where>
+    </select>
+
+    <select id="selectProductTagListByProdProductID" resultMap="com.ruoyi.erp.mapper.ErpTagsMapper.ErpTagsResult">
+        SELECT tags.* FROM erp_tags_map map INNER JOIN erp_tags tags ON map.tag_uuid = tags.tag_uuid
+    </select>
+
     <insert id="insertErpTagsMap" parameterType="ErpTagsMap">
         insert into erp_tags_map
         <trim prefix="(" suffix=")" suffixOverrides=",">

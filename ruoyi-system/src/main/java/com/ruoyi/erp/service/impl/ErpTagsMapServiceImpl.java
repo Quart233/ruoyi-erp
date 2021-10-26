@@ -1,6 +1,8 @@
 package com.ruoyi.erp.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.erp.domain.ErpTags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.erp.mapper.ErpTagsMapMapper;
@@ -89,5 +91,15 @@ public class ErpTagsMapServiceImpl implements IErpTagsMapService
     public int deleteErpTagsMapByTagUuid(String tagUuid)
     {
         return erpTagsMapMapper.deleteErpTagsMapByTagUuid(tagUuid);
+    }
+
+    @Override
+    public List<ErpTagsMap> selectErpTagsMapListByProductID(long productID) {
+        return erpTagsMapMapper.selectErpTagsMapListByProductID(productID);
+    }
+
+    @Override
+    public List<ErpTags> selectProductTagListByProdProductID(Long id) {
+        return erpTagsMapMapper.selectProductTagListByProdProductID(id);
     }
 }

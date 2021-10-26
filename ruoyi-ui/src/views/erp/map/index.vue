@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="产品条码 UUID" prop="tagUuid">
+      <el-form-item label="UUID" prop="tagUuid">
         <el-input
           v-model="queryParams.tagUuid"
           placeholder="请输入产品条码 UUID"

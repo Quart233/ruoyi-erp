@@ -1,6 +1,8 @@
 package com.ruoyi.erp.mapper;
 
 import java.util.List;
+
+import com.ruoyi.erp.domain.ErpTags;
 import com.ruoyi.erp.domain.ErpTagsMap;
 
 /**
@@ -58,4 +60,14 @@ public interface ErpTagsMapMapper
      * @return 结果
      */
     public int deleteErpTagsMapByTagUuids(String[] tagUuids);
+
+    List<ErpTagsMap> selectErpTagsMapListByProductID(long productID);
+
+    /**
+     * 查询产品相关的标签
+     *
+     * @param id 产品ID
+     * @return 结果
+     */
+    List<ErpTags> selectProductTagListByProdProductID(Long id);
 }
