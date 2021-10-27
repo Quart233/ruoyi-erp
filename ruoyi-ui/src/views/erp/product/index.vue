@@ -106,7 +106,14 @@
       <el-table-column label="备注" align="center" prop="productRemark" />
       <el-table-column label="标签" align="center" prop="tags">
         <template #default="scope">
-          <el-tag v-for="tag in scope.row.tags" v-bind:key="tag.tagUuid">{{ tag.tagName }}</el-tag>
+          <el-tag
+            style="margin-left: 5px; margin-right: 5px;"
+            v-for="tag in scope.row.tags"
+            v-bind:key="tag.tagUuid"
+            v-bind:color="tag.color"
+            type="info"
+            effect="dark"
+          >{{ tag.tagName }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">

@@ -22,7 +22,19 @@ public class ErpTags extends BaseEntity
     @Excel(name = "标签名")
     private String tagName;
 
-    public void setTagUuid(String tagUuid) 
+    /** 颜色 */
+    @Excel(name = "颜色")
+    private String color;
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setTagUuid(String tagUuid)
     {
         this.tagUuid = tagUuid;
     }

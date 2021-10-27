@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="tagUuid"    column="tag_uuid"    />
         <result property="tagName"    column="tag_name"    />
         <result property="remark"    column="remark"    />
+        <result property="color"    column="color"    />
         <result property="createTime"    column="create_time"    />
     </resultMap>
 
