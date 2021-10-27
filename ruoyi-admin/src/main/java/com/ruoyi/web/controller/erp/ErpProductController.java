@@ -1,7 +1,9 @@
 package com.ruoyi.web.controller.erp;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.ruoyi.erp.domain.ErpProductExtended;
 import com.ruoyi.erp.domain.ErpTags;
 import com.ruoyi.erp.service.IErpTagsMapService;
 import io.swagger.annotations.Api;
@@ -51,12 +53,17 @@ public class ErpProductController extends BaseController
     {
         startPage();
         List<ErpProduct> list = erpProductService.selectErpProductList(erpProduct);
-        list.stream().map(item -> {
+        list = list.stream().map(item -> {
             List<ErpTags> erpTagsList = erpTagsMapService.selectProductTagListByProdProductID(item.getId());
-            System.out.println(erpTagsList.toString());
-//            List<ErpTagsMap> erpTagsMap = erpTagsMapService.selectErpTagsMapListByProductID(item.getId());
-//            System.out.println(erpTagsMap.toString());
-        });
+            item.setTags(erpTagsList);
+            return item;
+        }).collect(Collectors.toList());
+//        List<ErpProductExtended> erpProductExtendedList = list.stream().map(item -> {
+//            ErpProductExtended productItem = (ErpProductExtended)item;
+//            List<ErpTags> erpTagsList = erpTagsMapService.selectProductTagListByProdProductID(productItem.getId());
+//            productItem.setTags(erpTagsList);
+//            return productItem;
+//        }).collect(Collectors.toList());
         return getDataTable(list);
     }
 

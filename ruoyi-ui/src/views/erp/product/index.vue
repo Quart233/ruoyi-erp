@@ -104,6 +104,11 @@
       <el-table-column label="单位" align="center" prop="productUnit" />
       <el-table-column label="销售价格" align="center" prop="productPrice" />
       <el-table-column label="备注" align="center" prop="productRemark" />
+      <el-table-column label="标签" align="center" prop="tags">
+        <template #default="scope">
+          <el-tag v-for="tag in scope.row.tags" v-bind:key="tag.tagUuid">{{ tag.tagName }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button

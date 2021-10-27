@@ -15,7 +15,18 @@ import java.util.List;
  * @author kuaizi
  * @date 2021-10-25
  */
-public class ErpProductExtend extends ErpProduct
+public class ErpProductExtended extends ErpProduct
 {
+    public ErpProductExtended() {
+        super();
+    }
     public List<ErpTags> tags = new ArrayList<ErpTags>();
+
+    public void setTags(List<ErpTags> tags) {
+        this.tags = tags;
+    }
+
+    public List<ErpTags> getTags() {
+        return tags;
+    }
 }

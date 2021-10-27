@@ -1,6 +1,9 @@
 package com.ruoyi.erp.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -14,6 +17,10 @@ import com.ruoyi.common.core.domain.BaseEntity;
  */
 public class ErpProduct extends BaseEntity
 {
+    public ErpProduct() {
+        super();
+    }
+
     private static final long serialVersionUID = 1L;
 
     /** 产品ID */
@@ -104,5 +111,15 @@ public class ErpProduct extends BaseEntity
             .append("productPrice", getProductPrice())
             .append("productRemark", getProductRemark())
             .toString();
+    }
+
+    public List<ErpTags> tags = new ArrayList<ErpTags>();
+
+    public void setTags(List<ErpTags> tags) {
+        this.tags = tags;
+    }
+
+    public List<ErpTags> getTags() {
+        return tags;
     }
 }

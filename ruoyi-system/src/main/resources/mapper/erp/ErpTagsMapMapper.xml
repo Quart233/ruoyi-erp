@@ -33,6 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectProductTagListByProdProductID" resultMap="com.ruoyi.erp.mapper.ErpTagsMapper.ErpTagsResult">
         SELECT tags.* FROM erp_tags_map map INNER JOIN erp_tags tags ON map.tag_uuid = tags.tag_uuid
+        <where>and product_id = #{id}</where>
     </select>
 
     <insert id="insertErpTagsMap" parameterType="ErpTagsMap">
