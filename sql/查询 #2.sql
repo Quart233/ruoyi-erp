@@ -1,0 +1,1 @@
+SELECT product.* FROM erp_product product INNER JOIN erp_tags_map map ON product.id = map.product_id INNER JOIN erp_tags tag ON tag.tag_uuid = map.tag_uuid WHERE tag.tag_name = "蓝牙音箱"
