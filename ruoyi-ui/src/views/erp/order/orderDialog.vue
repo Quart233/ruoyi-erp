@@ -8,23 +8,55 @@
         <!-- <el-button style="float: right; padding: 3px 0" type="text">编辑</el-button> -->
       </div>
 
-      <el-form ref="form" :inline="true" :model="form" :rules="rules" label-width="80px" style="display: flex; justify-content: space-evenly;">
-        <el-form-item label="客户姓名" prop="clientNickname" label-width="auto">
-          <el-input v-model="form.clientName" placeholder="请输入客户姓名" size="mini"></el-input>
-        </el-form-item>
-        <el-form-item label="客户手机号" prop="clientMobile" label-width="auto">
-          <el-input v-model="form.clientName" placeholder="请输入客户手机号" size="mini"></el-input>
-        </el-form-item>
-        <el-form-item label="送货地址" prop="shppingAddress" label-width="auto">
-          <el-input v-model="form.clientName" placeholder="请输入送货地址" size="mini"></el-input>
-        </el-form-item>
-        <el-form-item label="开票" label-width="auto">
-          <el-switch v-model="form.taxNeed"></el-switch>
-        </el-form-item>
+      <el-form ref="form" :inline="true" :model="form" :rules="rules" label-width="80px">
+        <el-row type="flex" justify="space-between">
+          <el-col :span="6">
+            <el-form-item label="客户姓名" prop="clientNickname" label-width="auto">
+              <el-input v-model="form.clientName" placeholder="请输入客户姓名" size="mini"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="客户手机号" prop="clientMobile" label-width="auto">
+              <el-input v-model="form.clientName" placeholder="请输入客户手机号" size="mini"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="送货地址" prop="shppingAddress" label-width="auto">
+              <el-input v-model="form.clientName" placeholder="请输入送货地址" size="mini"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="实付金额" prop="actualPayment" label-width="auto">
+              <el-input size="mini" v-model="form.clientName" placeholder="请输入实付金额"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="space-between">
+          <el-col :span="6">
+            <el-form-item label="创建时间" prop="createTime" label-width="auto">
+              <el-input size="mini" v-model="form.clientName" placeholder="请输入创建时间"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="经手人" prop="handlerName" label-width="auto">
+              <el-input size="mini" v-model="form.clientName" placeholder="请输入经手人"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="订单备注" prop="remark" label-width="auto">
+              <el-input size="mini" v-model="form.clientName" placeholder="请输入备注"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="开票" label-width="auto" style="display: flex; flex-direction: column;">
+              <el-switch v-model="form.taxNeed"></el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
     </el-card>
 
-    <div style="margin-top: 50px"></div>
+    <div style="margin-top: 10px"></div>
     
     <transition name="fade">
       <el-card lass="box-card" v-show="form.taxNeed">
@@ -75,7 +107,7 @@
       </el-card>
     </transition>
     
-    <div style="margin-top: 50px"></div>
+    <div style="margin-top: 10px"></div>
 
     <el-card lass="box-card">
       <div slot="header" class="clearfix">
