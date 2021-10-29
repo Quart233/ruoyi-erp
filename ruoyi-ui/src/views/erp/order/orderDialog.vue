@@ -12,29 +12,36 @@
         <el-row type="flex" justify="space-between">
           <el-col :span="6">
             <el-form-item label="客户姓名" prop="clientNickname" label-width="auto">
-              <el-input v-model="form.clientName" placeholder="请输入客户姓名" size="mini"></el-input>
+              <el-autocomplete
+                v-model="form.clientNickname" 
+                :fetch-suggestions="queryClientNameAsync" 
+                placeholder="请输入客户姓名"
+                @select="handleSelect"
+                size="mini"
+                :trigger-on-focus="false"
+              ></el-autocomplete>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户手机号" prop="clientMobile" label-width="auto">
-              <el-input v-model="form.clientName" placeholder="请输入客户手机号" size="mini"></el-input>
+            <el-form-item label="客户手机号" prop="clientPhone" label-width="auto">
+              <el-input v-model="form.clientPhone" placeholder="请输入客户手机号" size="mini"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="送货地址" prop="shppingAddress" label-width="auto">
-              <el-input v-model="form.clientName" placeholder="请输入送货地址" size="mini"></el-input>
+            <el-form-item label="送货地址" prop="shippingAddress" label-width="auto">
+              <el-input v-model="form.shippingAddress" placeholder="请输入送货地址" size="mini" max="100" style="width:218px"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="实付金额" prop="actualPayment" label-width="auto">
-              <el-input size="mini" v-model="form.clientName" placeholder="请输入实付金额"></el-input>
+              <el-input size="mini" v-model="form.actualPayment" placeholder="请输入实付金额"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="space-between">
           <el-col :span="6">
             <el-form-item label="创建时间" prop="createTime" label-width="auto">
-              <el-input size="mini" v-model="form.clientName" placeholder="请输入创建时间"></el-input>
+              <el-date-picker v-model="form.createTime" type="datetime" placeholder="选择日期时间" size="mini" style="width: 189px"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -160,6 +167,7 @@
 </template>
 
 <script>
+import { listClient } from '@/api/erp/client'
 export default {
   name: "order-dialog",
   props: ['visible', 'title', 'edit'],
@@ -169,13 +177,27 @@ export default {
       productList: [],
       // 表单参数
       form: {
-        taxNeed: false
+        taxNeed: false,
+        createTime: null
       }
     }
   },
+  methods: {
+    async queryClientNameAsync(queryString, cb) {
+      let response = await listClient({clientNickname: queryString})
+      let result = response.rows.map(item => new Object({value: item.clientNickname, info: item}))
+      cb(result)
+    },
+    handleSelect(item) {
+      console.log(item)
+      this.form.clientNickname = item.value
+      this.form.clientPhone = item.info.clientPhone
+      this.form.shippingAddress = item.info.shippingAddress
+    }
+  },
   watch: {
-    visible(val, oldVal) {
-      console.log(val)
+    visible: function(val, oldVal) {
+      this.form.createTime = new Date();
     }
   }
 }
