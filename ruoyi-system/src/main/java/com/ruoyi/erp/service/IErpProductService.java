@@ -58,4 +58,5 @@ public interface IErpProductService
      * @return 结果
      */
     public int deleteErpProductById(Long id);
+     public List<ErpProduct> selectProductListByTag(ErpProduct erpProduct);
 }

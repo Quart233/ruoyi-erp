@@ -58,4 +58,6 @@ public interface ErpProductMapper
      * @return 结果
      */
     public int deleteErpProductByIds(Long[] ids);
+
+    List<ErpProduct> selectProductListByTag(ErpProduct erpProduct);
 }

@@ -113,13 +113,19 @@ public class ErpProduct extends BaseEntity
             .toString();
     }
 
-    public List<ErpTags> tags = new ArrayList<ErpTags>();
-
+    private List<ErpTags> tags = new ArrayList<ErpTags>();
     public void setTags(List<ErpTags> tags) {
         this.tags = tags;
     }
-
     public List<ErpTags> getTags() {
         return tags;
+    }
+
+    private int num = 0;
+    public void setNum(int num) {
+        this.num = num;
+    }
+    public int getNum() {
+        return num;
     }
 }

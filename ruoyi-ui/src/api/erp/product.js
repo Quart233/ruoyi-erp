@@ -1,5 +1,14 @@
 import request from '@/utils/request'
 
+// 按标签查询产品
+export function querPorductByTags(data) {
+  return request({
+    url: '/erp/product/querPorductByTags',
+    method: 'post',
+    data: data
+  })
+}
+
 // 查询库存产品列表
 export function listProduct(query) {
   return request({

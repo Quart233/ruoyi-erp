@@ -67,6 +67,11 @@ public class ErpProductController extends BaseController
         return getDataTable(list);
     }
 
+    @PostMapping("/querPorductByTags")
+    public AjaxResult querPorductByTags(@RequestBody ErpProduct erpProduct) {
+        return AjaxResult.success(erpProductService.selectProductListByTag(erpProduct));
+    }
+
     /**
      * 导出库存产品列表
      */

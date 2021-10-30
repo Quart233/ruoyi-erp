@@ -13,19 +13,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="productRemark"    column="product_remark"    />
     </resultMap>
 
+    <resultMap type="ErpProduct" id="ErpProductByTagsResult">
+        <result property="id"    column="id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="productModel"    column="product_model"    />
+        <result property="productUnit"    column="product_unit"    />
+        <result property="productPrice"    column="product_price"    />
+        <result property="productRemark"    column="product_remark"    />
+        <result property="num"    column="num"    />
+    </resultMap>
+
     <sql id="selectErpProductVo">
         select id, product_name, product_model, product_unit, product_price, product_remark from erp_product
     </sql>
 
     <select id="selectErpProductList" parameterType="ErpProduct" resultMap="ErpProductResult">
         <include refid="selectErpProductVo"/>
-        <where>  
+        <where>
             <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
             <if test="productModel != null  and productModel != ''"> and product_model = #{productModel}</if>
             <if test="productUnit != null  and productUnit != ''"> and product_unit = #{productUnit}</if>
             <if test="productPrice != null "> and product_price = #{productPrice}</if>
             <if test="productRemark != null  and productRemark != ''"> and product_remark = #{productRemark}</if>
         </where>
+    </select>
+
+    <select id="selectProductListByTag" parameterType="ErpProduct" resultMap="ErpProductByTagsResult">
+        SELECT product.*, COUNT(product.id) as num FROM erp_tags_map map
+        INNER JOIN erp_product product ON product.id = map.product_id
+        INNER JOIN erp_tags tag ON tag.tag_uuid = map.tag_uuid
+        <where>
+            <foreach collection="tags" item="tag" separator=" OR ">
+                <bind name="pattern" value="'%' + tag.tagName + '%'"/>
+                tag.tag_name like #{pattern}
+            </foreach>
+        </where>
+        GROUP BY product.id
     </select>
     
     <select id="selectErpProductById" parameterType="Long" resultMap="ErpProductResult">

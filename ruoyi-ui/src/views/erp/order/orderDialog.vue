@@ -123,16 +123,26 @@
         <!-- <el-button style="float: right; padding: 3px 0" type="text">编辑</el-button> -->
       </div>
 
-      <el-form label-position="left" ref="form" :inline="true" :model="form" :rules="rules" label-width="80px" style="display: flex; justify-content: space-evenly;">
+      <el-form label-position="left" ref="form" :inline="true" :model="productQueryParams" :rules="rules" label-width="80px" style="display: flex; justify-content: space-evenly;">
         <el-form-item label="产品名称" prop="productName" label-width="auto">
-          <el-input v-model="form.clientName" placeholder="请输入产品名称" size="mini"></el-input>
+          <el-autocomplete
+            v-model="productQueryParams.productName" 
+            :fetch-suggestions="queryProductAsync" 
+            placeholder="支持标签(使用空格分割)"
+            :trigger-on-focus="false"
+            @select="handleProductNameSelect"
+            size="mini"
+          ></el-autocomplete>
         </el-form-item>
         <el-form-item label="产品型号" prop="productModel" label-width="auto">
-          <el-input v-model="form.clientName" placeholder="请输入产品型号" size="mini"></el-input>
+          <el-input v-model="productQueryParams.productModel" placeholder="请输入产品型号" size="mini"></el-input>
         </el-form-item>
         <el-form-item label="产品数量" prop="productAmount" label-width="auto">
-          <el-input v-model="form.clientName" placeholder="请输入产品数量" size="mini"></el-input>
+          <el-input v-model="productQueryParams.productAmount" placeholder="请输入产品数量" size="mini"></el-input>
         </el-form-item>
+        <!-- <el-form-item label="产品备注" prop="productRemark" label-width="auto">
+          <el-input v-model="form.productRemark" placeholder="请输入产品备注" size="mini"></el-input>
+        </el-form-item> -->
         <el-form-item>
           <el-button
             type="primary"
@@ -168,6 +178,7 @@
 
 <script>
 import { listClient } from '@/api/erp/client'
+import { querPorductByTags } from '@/api/erp/product'
 export default {
   name: "order-dialog",
   props: ['visible', 'title', 'edit'],
@@ -179,10 +190,28 @@ export default {
       form: {
         taxNeed: false,
         createTime: null
+      },
+      // 产品查询参数
+      productQueryParams: {
+        productName:""
       }
     }
   },
   methods: {
+    async queryProductAsync(queryString, cb) {
+      let tags = queryString.split(" ").map(item => new Object({tagName: item}))
+      let response = await querPorductByTags({tags: tags});
+      let result = response.data.map(item => new Object({value: item.productName, info: item}))
+      result.sort((a, b) => a.info.num-b.info.num)
+      console.log(result)
+      cb(result)
+    },
+    handleProductNameSelect(item) {
+      console.log(item)
+      this.productQueryParams.productName = item.value
+      this.productQueryParams.productModel = item.info.productModel
+      this.form.productAmount = 0
+    },
     async queryClientNameAsync(queryString, cb) {
       let response = await listClient({clientNickname: queryString})
       let result = response.rows.map(item => new Object({value: item.clientNickname, info: item}))

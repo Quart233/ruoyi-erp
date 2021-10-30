@@ -90,4 +90,9 @@ public class ErpProductServiceImpl implements IErpProductService
     {
         return erpProductMapper.deleteErpProductById(id);
     }
+
+    @Override
+    public List<ErpProduct> selectProductListByTag(ErpProduct erpProduct) {
+        return erpProductMapper.selectProductListByTag(erpProduct);
+    }
 }
