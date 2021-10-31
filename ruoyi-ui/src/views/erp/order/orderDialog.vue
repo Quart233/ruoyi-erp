@@ -46,12 +46,12 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="经手人" prop="handlerName" label-width="auto">
-              <el-input size="mini" v-model="form.clientName" placeholder="请输入经手人"></el-input>
+              <el-input size="mini" v-model="form.handlerName" placeholder="请输入经手人"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="订单备注" prop="remark" label-width="auto">
-              <el-input size="mini" v-model="form.clientName" placeholder="请输入备注"></el-input>
+              <el-input size="mini" v-model="form.remark" placeholder="请输入备注"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -73,21 +73,21 @@
           <!-- <el-button style="float: right; padding: 3px 0" type="text">编辑</el-button> -->
         </div>
 
-        <el-form ref="form" :inline="true" :model="form" :rules="rules" label-width="auto">
+        <el-form ref="form" :inline="true" :model="taxInfo" :rules="rules" label-width="auto">
           <el-row type="flex" justify="space-between">
             <el-col :span="8">
               <el-form-item label="纳税人识别号" prop="taxpayerId">
-                <el-input size="mini" v-model="form.clientName" placeholder="请输入纳税人识别号"></el-input>
+                <el-input size="mini" v-model="taxInfo.taxpayerId" placeholder="请输入纳税人识别号"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="公司名称" prop="companyName">
-                <el-input size="mini" v-model="form.clientName" placeholder="请输入公司名称"></el-input>
+                <el-input size="mini" v-model="taxInfo.companyName" placeholder="请输入公司名称"></el-input>
               </el-form-item>              
             </el-col>
             <el-col :span="8">
               <el-form-item label="公司地址" prop="companyAddress">
-                <el-input size="mini" v-model="form.clientName" placeholder="请输入公司地址"></el-input>
+                <el-input size="mini" v-model="taxInfo.companyAddress" placeholder="请输入公司地址"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -95,17 +95,17 @@
           <el-row type="flex" justify="space-between">
             <el-col :span="8">
               <el-form-item label="联系电话" prop="contactTel">
-                <el-input size="mini" v-model="form.clientName" placeholder="请输入联系电话"></el-input>
+                <el-input size="mini" v-model="taxInfo.contactTel" placeholder="请输入联系电话"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="银行账户" prop="bankAccount" label-width="auto">
-                <el-input size="mini" v-model="form.clientName" placeholder="请输入银行账户"></el-input>
+                <el-input size="mini" v-model="taxInfo.bankAccount" placeholder="请输入银行账户"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="开户行" prop="deposit_bank" label-width="auto">
-                <el-input size="mini" v-model="form.clientName" placeholder="请输入开户行"></el-input>
+              <el-form-item label="开户行" prop="depositBank" label-width="auto">
+                <el-input size="mini" v-model="taxInfo.depositBank" placeholder="请输入开户行"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -198,6 +198,8 @@ export default {
         taxNeed: false,
         createTime: null
       },
+      // 开票信息
+      taxInfo: {},
       // 产品查询参数
       productQueryParams: {
         productName:""
