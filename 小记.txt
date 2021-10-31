@@ -1,1 +1,2 @@
 依赖关系: controller -> service -> mapper -> mapper.xml
+事务管理可以使用 @Transactional 注解来管理具体参考 http://doc.ruoyi.vip/ruoyi/document/htsc.html#%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86
