@@ -162,8 +162,8 @@
         <el-table-column align="center" label="金额" prop="productPrice"></el-table-column>
           <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">编辑</el-button>
+            <el-button @click="handleItemDeleteClick(scope.row)" type="text" size="small">删除</el-button>
+            <!-- <el-button type="text" size="small">编辑</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -210,7 +210,8 @@ export default {
       console.log(item)
       this.productQueryParams.productName = item.value
       this.productQueryParams.productModel = item.info.productModel
-      this.form.productAmount = 0
+      this.productQueryParams.productAmount = 1
+      this.productQueryParams.info = item.info
     },
     async queryClientNameAsync(queryString, cb) {
       let response = await listClient({clientNickname: queryString})
@@ -222,6 +223,13 @@ export default {
       this.form.clientNickname = item.value
       this.form.clientPhone = item.info.clientPhone
       this.form.shippingAddress = item.info.shippingAddress
+    },
+    handleAdd() {
+      this.productList.push(Object.assign({productAmount: this.productQueryParams.productAmount}, this.productQueryParams.info))
+    },
+    handleItemDeleteClick(e) {
+      let index = this.productList.findIndex(item => Object.is(e, item))
+      this.productList.splice(index, 1)
     }
   },
   watch: {
