@@ -163,6 +163,12 @@
           <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="handleItemDeleteClick(scope.row)" type="text" size="small">删除</el-button>
+            <el-button @click="handleItemDownClick(scope.row)" type="text" size="small">
+              <i class="el-icon-arrow-down"/>
+            </el-button>
+            <el-button @click="handleItemUpClick(scope.row)" type="text" size="small">
+              <i class="el-icon-arrow-up"/>
+            </el-button>
             <!-- <el-button type="text" size="small">编辑</el-button> -->
           </template>
         </el-table-column>
@@ -179,6 +185,7 @@
 <script>
 import { listClient } from '@/api/erp/client'
 import { querPorductByTags } from '@/api/erp/product'
+import Vue from "vue"
 export default {
   name: "order-dialog",
   props: ['visible', 'title', 'edit'],
@@ -230,7 +237,22 @@ export default {
     handleItemDeleteClick(e) {
       let index = this.productList.findIndex(item => Object.is(e, item))
       this.productList.splice(index, 1)
+    },
+    handleItemDownClick(e) {
+      let index = this.productList.findIndex(item => Object.is(e, item))
+      if (this.productList.length == 1) return
+      let target = Object.assign({}, this.productList[index + 1])
+      Vue.set(this.productList, index + 1, e) // 修改目标下标对象引用为当前对象
+      Vue.set(this.productList, index, target) // 修改原下标对象引用为目标对象
+    },
+    handleItemUpClick(e) {
+      let index = this.productList.findIndex(item => Object.is(e, item))
+      if (this.productList.length == 1 || index == 0) return
+      let target = Object.assign({}, this.productList[index - 1])
+      Vue.set(this.productList, index - 1, e) // 修改目标下标对象引用为当前对象
+      Vue.set(this.productList, index, target) // 修改原下标对象引用为目标对象
     }
+    
   },
   watch: {
     visible: function(val, oldVal) {
