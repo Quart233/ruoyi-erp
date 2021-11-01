@@ -1,8 +1,15 @@
 package com.ruoyi.web.controller.erp;
 
 import java.util.List;
+
+import com.ruoyi.erp.domain.ErpStorageFlow;
+import com.ruoyi.erp.service.IErpClientService;
+import com.ruoyi.erp.service.IErpStorageFlowService;
+import com.ruoyi.erp.service.IErpTaxInfoService;
+import com.ruoyi.framework.web.domain.server.Sys;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +39,15 @@ public class ErpOrderController extends BaseController
 {
     @Autowired
     private IErpOrderService erpOrderService;
+
+    @Autowired
+    private IErpClientService erpClientService;
+
+    @Autowired
+    private IErpTaxInfoService erpTaxInfoService;
+
+    @Autowired
+    private IErpStorageFlowService erpStorageFlowService;
 
     /**
      * 查询库存销售订单列表
@@ -71,12 +87,49 @@ public class ErpOrderController extends BaseController
     /**
      * 新增库存销售订单
      */
+    @Transactional()
     @PreAuthorize("@ss.hasPermi('erp:order:add')")
     @Log(title = "库存销售订单", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ErpOrder erpOrder)
     {
-        return toAjax(erpOrderService.insertErpOrder(erpOrder));
+        try {
+            Long clientID = erpOrder.getClientInfo().getId();
+
+            // 如果是新客户
+            if (clientID == null) {
+                erpClientService.insertErpClient(erpOrder.getClientInfo());
+                clientID = erpOrder.getClientInfo().getId();
+                System.out.println(String.format("clientID: %s", clientID));
+            }
+
+            // 关联客户
+            erpOrder.setClientId(clientID);
+
+            // 如果需要开票
+            if (erpOrder.getTaxNeed()) {
+                erpTaxInfoService.insertErpTaxInfo(erpOrder.getTaxInfo());
+                Long taxInfoID = erpOrder.getTaxInfo().getId();
+                erpOrder.setTaxInfoId(taxInfoID);
+            }
+
+            // 新增销售订单
+            erpOrderService.insertErpOrder(erpOrder);
+
+            // 新增库存流水
+            erpOrder.getProductList().stream().forEach(erpProduct -> {
+                ErpStorageFlow erpStorageFlow = new ErpStorageFlow();
+                erpStorageFlow.setType((long) 11);
+                erpStorageFlow.setOrderId(erpOrder.getId());
+                erpStorageFlow.setProductId(erpProduct.getId());
+                erpStorageFlow.setAmount(erpProduct.getProductAmount());
+                erpStorageFlow.setPrice(erpProduct.getProductPrice());
+                erpStorageFlowService.insertErpStorageFlow(erpStorageFlow);
+            });
+        } catch (Exception e) {
+            return AjaxResult.error(e.toString());
+        }
+        return toAjax(1);
     }
 
     /**

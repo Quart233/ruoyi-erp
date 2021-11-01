@@ -13,7 +13,7 @@
           <el-col :span="6">
             <el-form-item label="客户姓名" prop="clientNickname" label-width="auto">
               <el-autocomplete
-                v-model="form.clientNickname" 
+                v-model="clientInfo.clientNickname" 
                 :fetch-suggestions="queryClientNameAsync" 
                 placeholder="请输入客户姓名"
                 @select="handleSelect"
@@ -24,12 +24,12 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="客户手机号" prop="clientPhone" label-width="auto">
-              <el-input v-model="form.clientPhone" placeholder="请输入客户手机号" size="mini"></el-input>
+              <el-input v-model="clientInfo.clientPhone" placeholder="请输入客户手机号" size="mini"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="送货地址" prop="shippingAddress" label-width="auto">
-              <el-input v-model="form.shippingAddress" placeholder="请输入送货地址" size="mini" max="100" style="width:218px"></el-input>
+              <el-input v-model="clientInfo.shippingAddress" placeholder="请输入送货地址" size="mini" max="100" style="width:218px"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -185,6 +185,7 @@
 <script>
 import { listClient } from '@/api/erp/client'
 import { querPorductByTags } from '@/api/erp/product'
+import { addOrder } from '@/api/erp/order'
 import Vue from "vue"
 export default {
   name: "order-dialog",
@@ -198,6 +199,8 @@ export default {
         taxNeed: false,
         createTime: null
       },
+      // 客户信息
+      clientInfo: {},
       // 开票信息
       taxInfo: {},
       // 产品查询参数
@@ -229,9 +232,9 @@ export default {
     },
     handleSelect(item) {
       console.log(item)
-      this.form.clientNickname = item.value
-      this.form.clientPhone = item.info.clientPhone
-      this.form.shippingAddress = item.info.shippingAddress
+      this.clientInfo.clientNickname = item.value
+      this.clientInfo.clientPhone = item.info.clientPhone
+      this.clientInfo.shippingAddress = item.info.shippingAddress
     },
     handleAdd() {
       this.productList.push(Object.assign({productAmount: this.productQueryParams.productAmount}, this.productQueryParams.info))
@@ -253,8 +256,15 @@ export default {
       let target = Object.assign({}, this.productList[index - 1])
       Vue.set(this.productList, index - 1, e) // 修改目标下标对象引用为当前对象
       Vue.set(this.productList, index, target) // 修改原下标对象引用为目标对象
+    },
+    async submitForm() {
+      let response = await addOrder(Object.assign({
+        clientInfo: this.clientInfo,
+        productList: this.productList,
+        taxInfo: this.taxInfo
+      }, this.form))
+      console.log(response)
     }
-    
   },
   watch: {
     visible: function(val, oldVal) {

@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertErpTaxInfo" parameterType="ErpTaxInfo" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertErpTaxInfo" parameterType="ErpTaxInfo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into erp_tax_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="taxpayerId != null">taxpayer_id,</if>

@@ -128,4 +128,14 @@ public class ErpProduct extends BaseEntity
     public int getNum() {
         return num;
     }
+
+    private Long productAmount;
+
+    public Long getProductAmount() {
+        return productAmount;
+    }
+
+    public void setProductAmount(Long productAmount) {
+        this.productAmount = productAmount;
+    }
 }

@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertErpOrder" parameterType="ErpOrder" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertErpOrder" parameterType="ErpOrder" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into erp_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="detailId != null">detail_id,</if>

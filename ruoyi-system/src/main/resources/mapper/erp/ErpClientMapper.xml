@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
         
-    <insert id="insertErpClient" parameterType="ErpClient" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertErpClient" parameterType="ErpClient" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into erp_client
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="clientNickname != null">client_nickname,</if>

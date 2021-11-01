@@ -35,7 +35,17 @@ public class ErpStorageFlow extends BaseEntity
     @Excel(name = "流水金额")
     private BigDecimal price;
 
-    public void setId(Long id) 
+    /** 订单ID */
+    private long orderId;
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
+    public long getOrderId() {
+        return orderId;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -62,12 +72,12 @@ public class ErpStorageFlow extends BaseEntity
     {
         return amount;
     }
-    public void setType(Long type) 
+    public void setType(Long type)
     {
         this.type = type;
     }
 
-    public Long getType() 
+    public Long getType()
     {
         return type;
     }

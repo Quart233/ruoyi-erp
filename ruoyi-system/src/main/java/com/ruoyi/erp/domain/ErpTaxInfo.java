@@ -20,7 +20,7 @@ public class ErpTaxInfo extends BaseEntity
 
     /** 纳税人识别号 */
     @Excel(name = "纳税人识别号")
-    private Long taxpayerId;
+    private String taxpayerId;
 
     /** 公司名称 */
     @Excel(name = "公司名称")
@@ -42,7 +42,7 @@ public class ErpTaxInfo extends BaseEntity
     @Excel(name = "开户行")
     private String depositBank;
 
-    public void setId(Long id) 
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -51,12 +51,12 @@ public class ErpTaxInfo extends BaseEntity
     {
         return id;
     }
-    public void setTaxpayerId(Long taxpayerId) 
+    public void setTaxpayerId(String taxpayerId)
     {
         this.taxpayerId = taxpayerId;
     }
 
-    public Long getTaxpayerId() 
+    public String getTaxpayerId()
     {
         return taxpayerId;
     }

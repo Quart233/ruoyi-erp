@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="productId"    column="product_id"    />
         <result property="amount"    column="amount"    />
-        <result property="type"    column="type"    />
+        <result property="type"    column="order_type"    />
         <result property="price"    column="price"    />
         <result property="remark"    column="remark"    />
     </resultMap>
@@ -37,7 +37,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="productId != null">product_id,</if>
             <if test="amount != null">amount,</if>
-            <if test="type != null">type,</if>
+            <if test="type != null">order_type,</if>
+            <if test="orderId != null">order_id,</if>
             <if test="price != null">price,</if>
             <if test="remark != null">remark,</if>
          </trim>
@@ -45,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productId != null">#{productId},</if>
             <if test="amount != null">#{amount},</if>
             <if test="type != null">#{type},</if>
+            <if test="orderId != null">#{orderId},</if>
             <if test="price != null">#{price},</if>
             <if test="remark != null">#{remark},</if>
          </trim>

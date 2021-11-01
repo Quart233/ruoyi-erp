@@ -1,6 +1,8 @@
 package com.ruoyi.erp.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -43,7 +45,16 @@ public class ErpOrder extends BaseEntity
     @Excel(name = "客户ID")
     private Long clientId;
 
-    public void setId(Long id) 
+    /** 客户信息 */
+    private ErpClient clientInfo;
+    /** 是否需要开票 */
+    private boolean taxNeed;
+    /** 产品清单 */
+    private ArrayList<ErpProduct> productList;
+    /** 开票信息 */
+    private ErpTaxInfo taxInfo;
+
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -105,6 +116,39 @@ public class ErpOrder extends BaseEntity
     public Long getClientId() 
     {
         return clientId;
+    }
+
+    public void setClientInfo(ErpClient clientInfo) {
+        this.clientInfo = clientInfo;
+    }
+
+    public ErpClient getClientInfo() {
+        return clientInfo;
+    }
+
+    public void setTaxInfo(ErpTaxInfo taxInfo) {
+        this.taxInfo = taxInfo;
+    }
+
+    public ErpTaxInfo getTaxInfo() {
+        return taxInfo;
+    }
+
+    public void setTaxNeed(boolean taxNeed) {
+        this.taxNeed = taxNeed;
+    }
+
+    public boolean getTaxNeed()
+    {
+        return taxNeed;
+    }
+
+    public void setProductList(ArrayList<ErpProduct> productList) {
+        this.productList = productList;
+    }
+
+    public ArrayList<ErpProduct> getProductList() {
+        return productList;
     }
 
     @Override
