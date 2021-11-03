@@ -159,8 +159,10 @@
         <el-table-column align="center" label="名称" prop="productName"></el-table-column>
         <el-table-column align="center" label="型号" prop="productModel"></el-table-column>
         <el-table-column align="center" label="数量" prop="productAmount"></el-table-column>
-        <el-table-column align="center" label="金额" prop="productPrice"></el-table-column>
-          <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column align="center" label="金额" prop="productPrice">
+          <template slot-scope="scope">{{scope.row.productPrice | toFixed(2)}}</template>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="handleItemDeleteClick(scope.row)" type="text" size="small">删除</el-button>
             <el-button @click="handleItemDownClick(scope.row)" type="text" size="small">
@@ -173,7 +175,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <h2>合计：{{totalPrice}}</h2>
+      <h2>合计：{{totalPrice | toFixed(2)}}</h2>
     </el-card>
 
     <div slot="footer" class="dialog-footer">
@@ -242,7 +244,7 @@ export default {
       let info = Object.assign({}, this.productQueryParams.info) // 拷贝产品信息为独立实体
       this.productList.push(Object.assign(info, {
         productAmount: productAmount,
-        productPrice: parseFloat(productAmount * info.productPrice).toFixed(2)
+        productPrice: productAmount * info.productPrice
       }))
     },
     handleItemDeleteClick(e) {
@@ -275,12 +277,11 @@ export default {
   },
   computed: {
     totalPrice: function () {
-      if(this.productList.length > 0) {
-        return parseFloat(this.productList.map(item => item.productPrice).reduce((prev, cur, index, arr) => prev + cur)).toFixed(2)
-      } else {
-        return '--'
-      }
+      if(this.productList.length > 0) return this.productList.map(item => item.productPrice).reduce((prev, cur, index, arr) => prev + cur)
     }
+  },
+  filters: {
+    toFixed: (value, num) => value? parseFloat(value).toFixed(num) : '--'
   }
 }
 </script>
