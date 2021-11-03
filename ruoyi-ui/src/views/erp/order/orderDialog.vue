@@ -279,9 +279,6 @@ export default {
     totalPrice: function () {
       if(this.productList.length > 0) return this.productList.map(item => item.productPrice).reduce((prev, cur, index, arr) => prev + cur)
     }
-  },
-  filters: {
-    toFixed: (value, num) => value? parseFloat(value).toFixed(num) : '--'
   }
 }
 </script>

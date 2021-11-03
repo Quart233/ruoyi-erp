@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.erp.domain.ErpClient;
 import com.ruoyi.erp.domain.ErpStorageFlow;
+import com.ruoyi.erp.domain.ErpTaxInfo;
 import com.ruoyi.erp.mapper.ErpClientMapper;
 import com.ruoyi.erp.mapper.ErpStorageFlowMapper;
 import com.ruoyi.erp.mapper.ErpTaxInfoMapper;
@@ -58,7 +60,14 @@ public class ErpOrderServiceImpl implements IErpOrderService
     @Override
     public List<ErpOrder> selectErpOrderList(ErpOrder erpOrder)
     {
-        return erpOrderMapper.selectErpOrderList(erpOrder);
+        List<ErpOrder> erpOrderList = erpOrderMapper.selectErpOrderList(erpOrder);
+
+        // 查询客户信息
+        erpOrderList.stream().forEach(item -> {
+            ErpClient erpClient = erpClientMapper.selectErpClientById(item.getClientId());
+            item.setClientInfo(erpClient);
+        });
+        return erpOrderList;
     }
 
     /**

@@ -53,6 +53,8 @@ Vue.component('Editor', Editor)
 Vue.component('FileUpload', FileUpload)
 Vue.component('ImageUpload', ImageUpload)
 
+Vue.filter('toFixed', (value, num) => value? parseFloat(value).toFixed(num) : '--')
+
 Vue.use(directive)
 Vue.use(plugins)
 Vue.use(VueMeta)

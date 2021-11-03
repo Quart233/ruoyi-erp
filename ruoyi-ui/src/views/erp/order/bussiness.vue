@@ -20,11 +20,24 @@
       <el-table-column label="订单名称" align="center" prop="orderName" />
       <!-- <el-table-column label="库存流水ID" align="center" prop="detailId" />
       <el-table-column label="开票信息ID" align="center" prop="taxInfoId" /> -->
-      <el-table-column label="订单金额" align="center" prop="totalPrice" />
-      <el-table-column label="实付金额" align="center" prop="actualPayment" />
       <el-table-column label="经手人姓名" align="center" prop="handlerName" />
-      <!-- <el-table-column label="客户ID" align="center" prop="clientId" /> -->
+      <el-table-column label="客户姓名" align="center" prop="clientName">
+        <template slot-scope="scope">{{scope.row.clientInfo.clientNickname}}</template>
+      </el-table-column>
+      <el-table-column label="客户手机" align="center" prop="clientPhone">
+        <template slot-scope="scope">{{scope.row.clientInfo.clientPhone}}</template>
+      </el-table-column>
+      <el-table-column label="送货地址" align="center" prop="shippingAddress" width="300">
+        <template slot-scope="scope">{{scope.row.clientInfo.shippingAddress}}</template>
+      </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="订单金额" align="center" prop="totalPrice" >
+        <template slot-scope="scope">{{scope.row.totalPrice | toFixed(2) }}</template>
+      </el-table-column>
+      <el-table-column label="实付金额" align="center" prop="actualPayment" >
+        <template slot-scope="scope">{{scope.row.actualPayment | toFixed(2) }}</template>
+      </el-table-column>
+      <!-- <el-table-column label="客户ID" align="center" prop="clientId" /> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
