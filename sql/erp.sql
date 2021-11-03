@@ -20,23 +20,23 @@ CREATE TABLE IF NOT EXISTS `erp_client` (
   `shipping_address` varchar(255) DEFAULT NULL COMMENT '客户收货地址',
   `gender` int(11) DEFAULT NULL COMMENT '性别 先生:0 女士:1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='库存客户表';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COMMENT='库存客户表';
 
 -- 数据导出被取消选择。
 
 -- 导出  表 ry-vue.erp_order 结构
 CREATE TABLE IF NOT EXISTS `erp_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '销售订单ID',
-  `detail_id` int(11) DEFAULT NULL COMMENT '库存流水ID',
+  `order_name` varchar(255) DEFAULT NULL COMMENT '订单名称',
   `create_time` datetime(6) DEFAULT NULL COMMENT '创建时间',
   `tax_info_id` int(11) DEFAULT NULL COMMENT '开票信息ID',
   `total_price` double(16,2) DEFAULT NULL COMMENT '订单金额',
   `actual_payment` double(16,2) DEFAULT NULL COMMENT '实付金额',
-  `handler_name` varchar(50) DEFAULT NULL COMMENT '经手人姓名',
+  `handler_name` varchar(125) DEFAULT NULL COMMENT '经手人姓名',
   `client_id` int(11) DEFAULT NULL COMMENT '客户ID',
-  `remark` varchar(50) DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='库存销售订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COMMENT='库存销售订单表';
 
 -- 数据导出被取消选择。
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `erp_product` (
   `product_price` double(16,2) unsigned DEFAULT NULL COMMENT '销售价格',
   `product_remark` varchar(120) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='库存产品表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='库存产品表';
 
 -- 数据导出被取消选择。
 
@@ -99,11 +99,12 @@ CREATE TABLE IF NOT EXISTS `erp_storage_flow` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '库存流水ID',
   `product_id` int(11) DEFAULT NULL COMMENT '产品ID',
   `amount` int(11) DEFAULT NULL COMMENT '数量',
-  `type` int(11) DEFAULT NULL COMMENT '流水类型: 采购入库 00, 零售退货入库 01, 工程退货入库 02, 零售出库 10, 工程出库 11, 采购出库 12',
+  `order_type` int(11) DEFAULT NULL COMMENT '流水类型: 采购入库 00, 零售退货入库 01, 工程退货入库 02, 零售出库 10, 工程出库 11, 采购出库 12',
   `price` double(16,2) DEFAULT NULL COMMENT '流水金额',
   `remark` varchar(120) DEFAULT NULL COMMENT '备注',
+  `order_id` int(11) DEFAULT NULL COMMENT '订单ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='库存流水表';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COMMENT='库存流水表';
 
 -- 数据导出被取消选择。
 
@@ -112,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `erp_tags` (
   `tag_uuid` varchar(255) NOT NULL DEFAULT uuid() COMMENT '标签 UUID',
   `tag_name` varchar(255) DEFAULT NULL COMMENT '标签名',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `color` varchar(255) CHARACTER SET utf8mb3 DEFAULT NULL COMMENT '标签颜色',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`tag_uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='标签表';
@@ -121,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `erp_tags` (
 -- 导出  表 ry-vue.erp_tags_map 结构
 CREATE TABLE IF NOT EXISTS `erp_tags_map` (
   `tag_uuid` varchar(255) DEFAULT NULL COMMENT '产品条码 UUID',
-  `product_id` varchar(255) DEFAULT NULL COMMENT '产品 ID'
+  `product_id` int(11) DEFAULT NULL COMMENT '产品 ID'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='标签映射表';
 
 -- 数据导出被取消选择。
@@ -129,14 +131,14 @@ CREATE TABLE IF NOT EXISTS `erp_tags_map` (
 -- 导出  表 ry-vue.erp_tax_info 结构
 CREATE TABLE IF NOT EXISTS `erp_tax_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '开票信息 ID',
-  `taxpayer_id` int(11) DEFAULT NULL COMMENT '纳税人识别号',
+  `taxpayer_id` varchar(255) DEFAULT NULL COMMENT '纳税人识别号',
   `company_name` varchar(120) DEFAULT NULL COMMENT '公司名称',
   `company_address` varchar(120) DEFAULT NULL COMMENT '公司地址',
   `contact_tel` varchar(50) DEFAULT NULL COMMENT '联系电话',
   `bank_account` varchar(120) DEFAULT NULL COMMENT '银行账户',
   `deposit_bank` varchar(120) DEFAULT NULL COMMENT '开户行',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='库存开票信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COMMENT='库存开票信息表';
 
 -- 数据导出被取消选择。
 
