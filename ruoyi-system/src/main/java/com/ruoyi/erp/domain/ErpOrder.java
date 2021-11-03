@@ -53,6 +53,16 @@ public class ErpOrder extends BaseEntity
     private ArrayList<ErpProduct> productList;
     /** 开票信息 */
     private ErpTaxInfo taxInfo;
+    /** 订单名称 */
+    private String orderName;
+
+    public void setOrderName(String orderName) {
+        this.orderName = orderName;
+    }
+
+    public String getOrderName() {
+        return orderName;
+    }
 
     public void setId(Long id)
     {

@@ -189,3 +189,9 @@ aside {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+.line-dashed {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 2px dashed #eee;
+}

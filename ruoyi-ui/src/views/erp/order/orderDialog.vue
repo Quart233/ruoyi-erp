@@ -8,7 +8,7 @@
         <!-- <el-button style="float: right; padding: 3px 0" type="text">编辑</el-button> -->
       </div>
 
-      <el-form ref="form" :inline="true" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :inline="true" :model="form" :rules="rules">
         <el-row type="flex" justify="space-between">
           <el-col :span="6">
             <el-form-item label="客户姓名" prop="clientNickname" label-width="auto">
@@ -40,9 +40,9 @@
         </el-row>
         <el-row type="flex" justify="space-between">
           <el-col :span="6">
-            <el-form-item label="创建时间" prop="createTime" label-width="auto">
-              <el-date-picker v-model="form.createTime" type="datetime" placeholder="选择日期时间" size="mini" style="width: 189px"></el-date-picker>
-            </el-form-item>
+          <el-form-item label="订单名称" prop="orderName" label-width="auto">
+            <el-input v-model="form.orderName" placeholder="请输入订单名称" size="mini"></el-input>
+          </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="经手人" prop="handlerName" label-width="auto">
@@ -123,7 +123,7 @@
         <!-- <el-button style="float: right; padding: 3px 0" type="text">编辑</el-button> -->
       </div>
 
-      <el-form label-position="left" ref="form" :inline="true" :model="productQueryParams" :rules="rules" label-width="80px" style="display: flex; justify-content: space-evenly;">
+      <el-form label-position="left" ref="form" :inline="true" :model="productQueryParams" :rules="rules" style="display: flex; justify-content: space-evenly;">
         <el-form-item label="产品名称" prop="productName" label-width="auto">
           <el-autocomplete
             v-model="productQueryParams.productName" 
@@ -138,7 +138,7 @@
           <el-input v-model="productQueryParams.productModel" placeholder="请输入产品型号" size="mini"></el-input>
         </el-form-item>
         <el-form-item label="产品数量" prop="productAmount" label-width="auto">
-          <el-input v-model="productQueryParams.productAmount" placeholder="请输入产品数量" size="mini"></el-input>
+          <el-input v-model.number="productQueryParams.productAmount" placeholder="请输入产品数量" size="mini"></el-input>
         </el-form-item>
         <!-- <el-form-item label="产品备注" prop="productRemark" label-width="auto">
           <el-input v-model="form.productRemark" placeholder="请输入产品备注" size="mini"></el-input>
@@ -173,6 +173,7 @@
           </template>
         </el-table-column>
       </el-table>
+      <h2>合计：{{totalPrice}}</h2>
     </el-card>
 
     <div slot="footer" class="dialog-footer">
@@ -196,8 +197,7 @@ export default {
       productList: [],
       // 表单参数
       form: {
-        taxNeed: false,
-        createTime: null
+        taxNeed: false
       },
       // 客户信息
       clientInfo: {},
@@ -205,7 +205,8 @@ export default {
       taxInfo: {},
       // 产品查询参数
       productQueryParams: {
-        productName:""
+        productName:"",
+        productAmount: null
       }
     }
   },
@@ -237,7 +238,12 @@ export default {
       this.clientInfo.shippingAddress = item.info.shippingAddress
     },
     handleAdd() {
-      this.productList.push(Object.assign({productAmount: this.productQueryParams.productAmount}, this.productQueryParams.info))
+      let productAmount = this.productQueryParams.productAmount
+      let info = Object.assign({}, this.productQueryParams.info) // 拷贝产品信息为独立实体
+      this.productList.push(Object.assign(info, {
+        productAmount: productAmount,
+        productPrice: parseFloat(productAmount * info.productPrice).toFixed(2)
+      }))
     },
     handleItemDeleteClick(e) {
       let index = this.productList.findIndex(item => Object.is(e, item))
@@ -245,7 +251,7 @@ export default {
     },
     handleItemDownClick(e) {
       let index = this.productList.findIndex(item => Object.is(e, item))
-      if (this.productList.length == 1) return
+      if (this.productList.length == 1 || index == this.productList.length -1) return
       let target = Object.assign({}, this.productList[index + 1])
       Vue.set(this.productList, index + 1, e) // 修改目标下标对象引用为当前对象
       Vue.set(this.productList, index, target) // 修改原下标对象引用为目标对象
@@ -259,6 +265,7 @@ export default {
     },
     async submitForm() {
       let response = await addOrder(Object.assign({
+        totalPrice: this.totalPrice,
         clientInfo: this.clientInfo,
         productList: this.productList,
         taxInfo: this.taxInfo
@@ -266,9 +273,13 @@ export default {
       console.log(response)
     }
   },
-  watch: {
-    visible: function(val, oldVal) {
-      this.form.createTime = new Date();
+  computed: {
+    totalPrice: function () {
+      if(this.productList.length > 0) {
+        return parseFloat(this.productList.map(item => item.productPrice).reduce((prev, cur, index, arr) => prev + cur)).toFixed(2)
+      } else {
+        return '--'
+      }
     }
   }
 }
