@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="actualPayment != null">#{actualPayment},</if>
             <if test="handlerName != null">#{handlerName},</if>
             <if test="clientId != null">#{clientId},</if>
-            <if test="orderName != null">order_name,</if>
+            <if test="orderName != null">#{orderName},</if>
             <if test="remark != null">#{remark},</if>
         </trim>
     </insert>

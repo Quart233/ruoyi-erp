@@ -236,6 +236,7 @@ export default {
     handleSelect(item) {
       console.log(item)
       this.clientInfo.clientNickname = item.value
+      this.clientInfo.id = item.info.id
       this.clientInfo.clientPhone = item.info.clientPhone
       this.clientInfo.shippingAddress = item.info.shippingAddress
     },

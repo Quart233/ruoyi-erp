@@ -20,7 +20,6 @@
       <el-table-column label="订单名称" align="center" prop="orderName" />
       <!-- <el-table-column label="库存流水ID" align="center" prop="detailId" />
       <el-table-column label="开票信息ID" align="center" prop="taxInfoId" /> -->
-      <el-table-column label="经手人姓名" align="center" prop="handlerName" />
       <el-table-column label="客户姓名" align="center" prop="clientName">
         <template slot-scope="scope">{{scope.row.clientInfo.clientNickname}}</template>
       </el-table-column>
@@ -30,6 +29,7 @@
       <el-table-column label="送货地址" align="center" prop="shippingAddress" width="300">
         <template slot-scope="scope">{{scope.row.clientInfo.shippingAddress}}</template>
       </el-table-column>
+      <el-table-column label="经手人姓名" align="center" prop="handlerName" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="订单金额" align="center" prop="totalPrice" >
         <template slot-scope="scope">{{scope.row.totalPrice | toFixed(2) }}</template>
