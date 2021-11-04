@@ -49,7 +49,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="clientId != null">client_id,</if>
             <if test="orderName != null">order_name,</if>
             <if test="remark != null">remark,</if>
-         </trim>
+            <if test="taxNeed != null">tax_need,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="createTime != null">#{createTime},</if>
             <if test="taxInfoId != null">#{taxInfoId},</if>
@@ -59,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="clientId != null">#{clientId},</if>
             <if test="orderName != null">#{orderName},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="taxNeed != null">#{taxNeed},</if>
         </trim>
     </insert>
 

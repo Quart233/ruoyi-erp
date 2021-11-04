@@ -49,7 +49,7 @@ public class ErpOrder extends BaseEntity
     /** 客户信息 */
     private ErpClient clientInfo;
     /** 是否需要开票 */
-    private boolean taxNeed;
+    private Long taxNeed;
     /** 产品清单 */
     private List<ErpProduct> productList;
     /** 开票信息 */
@@ -145,12 +145,11 @@ public class ErpOrder extends BaseEntity
         return taxInfo;
     }
 
-    public void setTaxNeed(boolean taxNeed) {
+    public void setTaxNeed(Long taxNeed) {
         this.taxNeed = taxNeed;
     }
 
-    public boolean getTaxNeed()
-    {
+    public Long getTaxNeed() {
         return taxNeed;
     }
 

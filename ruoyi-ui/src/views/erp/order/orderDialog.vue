@@ -8,7 +8,7 @@
         <el-button style="float: right; padding: 3px 0" type="text" v-show="readOnly">编辑</el-button>
       </div>
 
-      <el-form ref="form" :inline="true" :model="form" :rules="rules">
+      <el-form ref="form" :inline="true" :model="form" >
         <el-row type="flex" justify="space-between">
           <el-col :span="6">
             <el-form-item label="客户姓名" prop="clientNickname" label-width="auto">
@@ -74,7 +74,7 @@
           <el-button style="float: right; padding: 3px 0" type="text" v-show="readOnly">编辑</el-button>
         </div>
 
-        <el-form ref="form" :inline="true" :model="taxInfo" :rules="rules" label-width="auto">
+        <el-form ref="form" :inline="true" :model="taxInfo"  label-width="auto">
           <el-row type="flex" justify="space-between">
             <el-col :span="8">
               <el-form-item label="纳税人识别号" prop="taxpayerId">
@@ -124,7 +124,7 @@
         <el-button style="float: right; padding: 3px 0" type="text" v-show="readOnly">编辑</el-button>
       </div>
 
-      <el-form label-position="left" ref="form" :inline="true" :model="productQueryParams" :rules="rules" style="display: flex; justify-content: space-evenly;" v-show="edit">
+      <el-form label-position="left" ref="form" :inline="true" :model="productQueryParams"  style="display: flex; justify-content: space-evenly;" v-show="edit">
         <el-form-item label="产品名称" prop="productName" label-width="auto">
           <el-autocomplete
             v-model="productQueryParams.productName" 
@@ -284,12 +284,13 @@ export default {
       Vue.set(this.productList, index, target) // 修改原下标对象引用为目标对象
     },
     async submitForm() {
-      let response = await addOrder(Object.assign({
+      let response = await addOrder(Object.assign(this.form, {
         totalPrice: this.totalPrice,
         clientInfo: this.clientInfo,
         productList: this.productList,
-        taxInfo: this.taxInfo
-      }, this.form))
+        taxInfo: this.taxInfo,
+        taxNeed: this.form.taxNeed ? 1 : 0
+      }))
       console.log(response)
     },
     restForm() {

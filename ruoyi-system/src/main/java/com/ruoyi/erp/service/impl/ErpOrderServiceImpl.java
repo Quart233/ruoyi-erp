@@ -96,7 +96,7 @@ public class ErpOrderServiceImpl implements IErpOrderService
         erpOrder.setClientId(clientID);
 
         // 如果需要开票
-        if (erpOrder.getTaxNeed()) {
+        if (erpOrder.getTaxNeed() == 1) {
             rows +=  erpTaxInfoMapper.insertErpTaxInfo(erpOrder.getTaxInfo());
             Long taxInfoID = erpOrder.getTaxInfo().getId();
             erpOrder.setTaxInfoId(taxInfoID); // 关联开票信息
