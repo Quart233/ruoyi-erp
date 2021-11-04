@@ -1,6 +1,6 @@
 <template>
   <!-- 添加或修改库存销售订单对话框 -->
-  <el-dialog :title="title" :visible.sync="visible" width="1000px" @close="$emit('close')" append-to-body>
+  <el-dialog :title="title" :visible.sync="visible" width="1200px" @close="$emit('close')" append-to-body>
     <el-card lass="box-card">
       <div slot="header" class="clearfix">
         <span>基础信息</span>
@@ -17,42 +17,43 @@
                 :fetch-suggestions="queryClientNameAsync" 
                 placeholder="请输入客户姓名"
                 @select="handleSelect"
-                size="mini"
+                size="small"
                 :trigger-on-focus="false"
                 :disabled="readOnly"
+                style="width:218px"
               ></el-autocomplete>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="客户手机号" prop="clientPhone" label-width="auto">
-              <el-input v-model="clientInfo.clientPhone" placeholder="请输入客户手机号" size="mini" :disabled="readOnly"></el-input>
+              <el-input v-model="clientInfo.clientPhone" placeholder="请输入客户手机号" size="small" :disabled="readOnly" style="width:169px"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="9">
             <el-form-item label="送货地址" prop="shippingAddress" label-width="auto">
-              <el-input v-model="clientInfo.shippingAddress" placeholder="请输入送货地址" size="mini" max="100" style="width:218px" :disabled="readOnly"></el-input>
+              <el-input v-model="clientInfo.shippingAddress" placeholder="请输入送货地址" size="small" max="100" style="width:342px" :disabled="readOnly"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="实付金额" prop="actualPayment" label-width="auto">
-              <el-input size="mini" v-model="form.actualPayment" placeholder="请输入实付金额" :disabled="readOnly"></el-input>
+              <el-input size="small" v-model="form.actualPayment" placeholder="请输入实付金额" :disabled="readOnly" style="width:125px"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row type="flex" justify="space-between">
           <el-col :span="6">
           <el-form-item label="订单名称" prop="orderName" label-width="auto">
-            <el-input v-model="form.orderName" placeholder="请输入订单名称" size="mini" :disabled="readOnly"></el-input>
+            <el-input v-model="form.orderName" placeholder="请输入订单名称" size="small" :disabled="readOnly" style="width:218px"></el-input>
           </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="经手人" prop="handlerName" label-width="auto">
-              <el-input size="mini" v-model="form.handlerName" placeholder="请输入经手人" :disabled="readOnly"></el-input>
+              <el-input size="small" v-model="form.handlerName" placeholder="请输入经手人" :disabled="readOnly" style="width:169px"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="9">
             <el-form-item label="订单备注" prop="remark" label-width="auto">
-              <el-input size="mini" v-model="form.remark" placeholder="请输入备注" :disabled="readOnly"></el-input>
+              <el-input size="small" v-model="form.remark" placeholder="请输入备注" :disabled="readOnly" style="width:342px"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -76,37 +77,37 @@
 
         <el-form ref="form" :inline="true" :model="taxInfo"  label-width="auto">
           <el-row type="flex" justify="space-between">
-            <el-col :span="8">
+            <el-col :span="6">
               <el-form-item label="纳税人识别号" prop="taxpayerId">
-                <el-input size="mini" v-model="taxInfo.taxpayerId" placeholder="请输入纳税人识别号" :disabled="readOnly"></el-input>
+                <el-input size="small" v-model="taxInfo.taxpayerId" placeholder="请输入纳税人识别号" :disabled="readOnly" style="width:170px"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="公司名称" prop="companyName">
-                <el-input size="mini" v-model="taxInfo.companyName" placeholder="请输入公司名称" :disabled="readOnly"></el-input>
+                <el-input size="small" v-model="taxInfo.companyName" placeholder="请输入公司名称" :disabled="readOnly" style="width:250px"></el-input>
               </el-form-item>              
             </el-col>
-            <el-col :span="8">
+            <el-col :span="10">
               <el-form-item label="公司地址" prop="companyAddress">
-                <el-input size="mini" v-model="taxInfo.companyAddress" placeholder="请输入公司地址" :disabled="readOnly"></el-input>
+                <el-input size="small" v-model="taxInfo.companyAddress" placeholder="请输入公司地址" :disabled="readOnly" style="width:340px"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           
           <el-row type="flex" justify="space-between">
-            <el-col :span="8">
+            <el-col :span="6">
               <el-form-item label="联系电话" prop="contactTel">
-                <el-input size="mini" v-model="taxInfo.contactTel" placeholder="请输入联系电话" :disabled="readOnly"></el-input>
+                <el-input size="small" v-model="taxInfo.contactTel" placeholder="请输入联系电话" :disabled="readOnly" style="width:170px"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="银行账户" prop="bankAccount" label-width="auto">
-                <el-input size="mini" v-model="taxInfo.bankAccount" placeholder="请输入银行账户" :disabled="readOnly"></el-input>
+                <el-input size="small" v-model="taxInfo.bankAccount" placeholder="请输入银行账户" :disabled="readOnly" style="width:250px"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="10">
               <el-form-item label="开户行" prop="depositBank" label-width="auto">
-                <el-input size="mini" v-model="taxInfo.depositBank" placeholder="请输入开户行" :disabled="readOnly"></el-input>
+                <el-input size="small" v-model="taxInfo.depositBank" placeholder="请输入开户行" :disabled="readOnly" style="width:340px"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -132,24 +133,25 @@
             placeholder="支持标签(使用空格分割)"
             :trigger-on-focus="false"
             @select="handleProductNameSelect"
-            size="mini"
+            size="small"
+            style="width:218px"
           ></el-autocomplete>
         </el-form-item>
         <el-form-item label="产品型号" prop="productModel" label-width="auto">
-          <el-input v-model="productQueryParams.productModel" placeholder="请输入产品型号" size="mini"></el-input>
+          <el-input v-model="productQueryParams.productModel" placeholder="请输入产品型号" size="small" style="width:218px"></el-input>
         </el-form-item>
         <el-form-item label="产品数量" prop="productAmount" label-width="auto">
-          <el-input v-model.number="productQueryParams.productAmount" placeholder="请输入产品数量" size="mini"></el-input>
+          <el-input v-model.number="productQueryParams.productAmount" placeholder="请输入产品数量" size="small" style="width:218px"></el-input>
         </el-form-item>
         <!-- <el-form-item label="产品备注" prop="productRemark" label-width="auto">
-          <el-input v-model="form.productRemark" placeholder="请输入产品备注" size="mini"></el-input>
+          <el-input v-model="form.productRemark" placeholder="请输入产品备注" size="small"></el-input>
         </el-form-item> -->
         <el-form-item>
           <el-button
             type="primary"
             plain
             icon="el-icon-plus"
-            size="mini"
+            size="small"
             @click="handleAdd"
             v-hasPermi="['erp:order:add']"
           >新增</el-button>
