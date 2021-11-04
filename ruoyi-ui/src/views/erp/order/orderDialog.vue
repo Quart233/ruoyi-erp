@@ -180,7 +180,7 @@
       <h2>合计：{{totalPrice | toFixed(2)}}</h2>
     </el-card>
 
-    <div slot="footer" class="dialog-footer" v-show="edit | create">
+    <div slot="footer" class="dialog-footer" v-show="edit || create">
       <el-button @click="restForm">清 除</el-button>
       <el-button type="primary" @click="submitForm">确 定</el-button>
     </div>
