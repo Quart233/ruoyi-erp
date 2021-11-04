@@ -181,8 +181,8 @@
     </el-card>
 
     <div slot="footer" class="dialog-footer" v-show="edit">
+      <el-button @click="restForm">清 除</el-button>
       <el-button type="primary" @click="submitForm">确 定</el-button>
-      <el-button @click="$emit('close')">取 消</el-button>
     </div>
   </el-dialog>
 </template>
@@ -211,12 +211,16 @@ export default {
       productQueryParams: {
         productName:"",
         productAmount: null
-      }
+      },
+      // 列表加载动画
+      loading: false
     }
   },
   methods: {
     async getOrderDetailInfo(id) {
+      this.loading = true
       let response = await getOrder(id)
+      this.loading = false
       this.clientInfo = response.data.clientInfo
       this.taxInfo = response.data.taxInfo
       this.productList = response.data.productList
@@ -322,6 +326,17 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .el-dialog__close {
+    padding: 5px;
+    transition: background-color .2s;
+    border-radius: 10%;
+    &:hover {
+      background: #E81123;
+      &::before {
+        color: #fff;
+      }
+    }
+  }
+  
 </style>
