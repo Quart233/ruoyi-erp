@@ -124,7 +124,7 @@
         <el-button style="float: right; padding: 3px 0" type="text" v-show="readOnly">编辑</el-button>
       </div>
 
-      <el-form label-position="left" ref="form" :inline="true" :model="productQueryParams"  style="display: flex; justify-content: space-evenly;" v-show="edit">
+      <el-form label-position="left" ref="form" :inline="true" :model="productQueryParams"  style="display: flex; justify-content: space-evenly;" v-show="create || edit">
         <el-form-item label="产品名称" prop="productName" label-width="auto">
           <el-autocomplete
             v-model="productQueryParams.productName" 
@@ -180,7 +180,7 @@
       <h2>合计：{{totalPrice | toFixed(2)}}</h2>
     </el-card>
 
-    <div slot="footer" class="dialog-footer" v-show="edit">
+    <div slot="footer" class="dialog-footer" v-show="edit | create">
       <el-button @click="restForm">清 除</el-button>
       <el-button type="primary" @click="submitForm">确 定</el-button>
     </div>
@@ -284,6 +284,8 @@ export default {
       Vue.set(this.productList, index, target) // 修改原下标对象引用为目标对象
     },
     async submitForm() {
+      this.loading = true
+      this.mode = 1
       let response = await addOrder(Object.assign(this.form, {
         totalPrice: this.totalPrice,
         clientInfo: this.clientInfo,
@@ -291,6 +293,9 @@ export default {
         taxInfo: this.taxInfo,
         taxNeed: this.form.taxNeed ? 1 : 0
       }))
+      this.restForm()
+      this.mode = 0
+      this.loading = false
       console.log(response)
     },
     restForm() {
@@ -312,7 +317,10 @@ export default {
       return this.mode == 1
     },
     edit() {
-      return this.mode != 1
+      return this.mode == 2
+    },
+    create() {
+      return this.mode == 0
     }
   },
   watch: {
