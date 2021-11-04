@@ -40,7 +40,8 @@
       <!-- <el-table-column label="客户ID" align="center" prop="clientId" /> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
+          <el-button size="mini" type="text" @click="handleCheckInfoClick(scope.row)">查看</el-button>
+          <!-- <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
@@ -53,12 +54,12 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['erp:order:remove']"
-          >删除</el-button>
+          >删除</el-button> -->
         </template>
       </el-table-column>
     </el-table>
 
-    <order-dialog v-bind:visible="open" @close="cancel" :title="title"></order-dialog>
+    <order-dialog v-bind:visible="open" @close="cancel" :title="title" :order-id="orderID" :mode="mode"></order-dialog>
     
   </div>
 </template>
@@ -78,6 +79,10 @@ export default {
         orderList: [],
         // 是否显示弹出层
         open: false,
+        // 订单详情 dialog 模式 创建:0 查看:1
+        mode: 0,
+        // 订单ID
+        orderID: 0
       }
     },
 
@@ -117,10 +122,18 @@ export default {
       },
       /** 新增按钮操作 */
       handleAdd() {
-        this.reset();
+        // this.reset();
         this.open = true;
         this.title = "添加库存销售订单";
+        this.mode = 0
       },
+
+      handleCheckInfoClick(e) {
+        this.open = true;
+        this.title = "订单详情";
+        this.orderID = e.id
+        this.mode = 1
+      }
     }
 }
 </script>

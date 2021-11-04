@@ -2,6 +2,7 @@ package com.ruoyi.erp.domain;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -50,7 +51,7 @@ public class ErpOrder extends BaseEntity
     /** 是否需要开票 */
     private boolean taxNeed;
     /** 产品清单 */
-    private ArrayList<ErpProduct> productList;
+    private List<ErpProduct> productList;
     /** 开票信息 */
     private ErpTaxInfo taxInfo;
     /** 订单名称 */
@@ -153,11 +154,11 @@ public class ErpOrder extends BaseEntity
         return taxNeed;
     }
 
-    public void setProductList(ArrayList<ErpProduct> productList) {
+    public void setProductList(List<ErpProduct> productList) {
         this.productList = productList;
     }
 
-    public ArrayList<ErpProduct> getProductList() {
+    public List<ErpProduct> getProductList() {
         return productList;
     }
 

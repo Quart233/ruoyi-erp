@@ -60,4 +60,12 @@ public interface ErpProductMapper
     public int deleteErpProductByIds(Long[] ids);
 
     List<ErpProduct> selectProductListByTag(ErpProduct erpProduct);
+
+    /**
+     * 根据订单号查询产品列表
+     *
+     * @param  id 订单id
+     * @return 结果
+     */
+    List<ErpProduct> selectErpProductByOrderId(Long id);
 }

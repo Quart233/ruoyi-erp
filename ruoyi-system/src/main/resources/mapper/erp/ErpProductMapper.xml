@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="productUnit"    column="product_unit"    />
         <result property="productPrice"    column="product_price"    />
         <result property="productRemark"    column="product_remark"    />
+        <result property="productAmount"    column="amount"    />
     </resultMap>
 
     <resultMap type="ErpProduct" id="ErpProductByTagsResult">
@@ -36,6 +37,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productPrice != null "> and product_price = #{productPrice}</if>
             <if test="productRemark != null  and productRemark != ''"> and product_remark = #{productRemark}</if>
         </where>
+    </select>
+
+    <select id="selectErpProductByOrderId" parameterType="Long" resultMap="ErpProductResult">
+        SELECT product.*, flow.amount FROM erp_product product INNER JOIN erp_storage_flow flow ON flow.product_id = product.id WHERE flow.order_id = #{id}
     </select>
 
     <select id="selectProductListByTag" parameterType="ErpProduct" resultMap="ErpProductByTagsResult">

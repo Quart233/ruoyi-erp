@@ -4,17 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.erp.domain.ErpClient;
-import com.ruoyi.erp.domain.ErpStorageFlow;
-import com.ruoyi.erp.domain.ErpTaxInfo;
-import com.ruoyi.erp.mapper.ErpClientMapper;
-import com.ruoyi.erp.mapper.ErpStorageFlowMapper;
-import com.ruoyi.erp.mapper.ErpTaxInfoMapper;
+import com.ruoyi.erp.domain.*;
+import com.ruoyi.erp.mapper.*;
 import com.ruoyi.erp.service.IErpTaxInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.erp.mapper.ErpOrderMapper;
-import com.ruoyi.erp.domain.ErpOrder;
 import com.ruoyi.erp.service.IErpOrderService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +33,9 @@ public class ErpOrderServiceImpl implements IErpOrderService
     @Autowired
     ErpStorageFlowMapper erpStorageFlowMapper;
 
+    @Autowired
+    ErpProductMapper erpProductMapper;
+
     /**
      * 查询库存销售订单
      * 
@@ -48,7 +45,11 @@ public class ErpOrderServiceImpl implements IErpOrderService
     @Override
     public ErpOrder selectErpOrderById(Long id)
     {
-        return erpOrderMapper.selectErpOrderById(id);
+        ErpOrder erpOrder = erpOrderMapper.selectErpOrderById(id);
+        erpOrder.setClientInfo(erpClientMapper.selectErpClientById(erpOrder.getClientId()));
+        erpOrder.setTaxInfo(erpTaxInfoMapper.selectErpTaxInfoById(erpOrder.getTaxInfoId()));
+        erpOrder.setProductList(erpProductMapper.selectErpProductByOrderId(erpOrder.getId()));
+        return erpOrder;
     }
 
     /**

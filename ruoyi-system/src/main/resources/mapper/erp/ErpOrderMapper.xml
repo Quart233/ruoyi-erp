@@ -14,10 +14,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="handlerName"    column="handler_name"    />
         <result property="clientId"    column="client_id"    />
         <result property="remark"    column="remark"    />
+        <result property="taxNeed"    column="tax_need"    />
     </resultMap>
 
     <sql id="selectErpOrderVo">
-        select id, create_time, tax_info_id, total_price, actual_payment, handler_name, client_id, order_name, remark from erp_order
+        select id, create_time, tax_info_id, total_price, actual_payment, handler_name, client_id, order_name, remark, tax_need from erp_order
     </sql>
 
     <select id="selectErpOrderList" parameterType="ErpOrder" resultMap="ErpOrderResult">
