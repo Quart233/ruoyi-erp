@@ -161,20 +161,27 @@
       <el-table v-loading="loading" :data="productList">
         <el-table-column align="center" label="名称" prop="productName"></el-table-column>
         <el-table-column align="center" label="型号" prop="productModel"></el-table-column>
-        <el-table-column align="center" label="数量" prop="productAmount"></el-table-column>
+        <el-table-column align="center" label="数量" prop="productAmount">
+          <template slot-scope="scope">{{scope.row.productAmount}} {{scope.row.productUnit}}</template>
+        </el-table-column>
         <el-table-column align="center" label="金额" prop="productPrice">
           <template slot-scope="scope">{{scope.row.productPrice | toFixed(2)}}</template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column fixed="right" label="操作" width="50">
           <template slot-scope="scope">
             <el-button @click="handleItemDeleteClick(scope.row)" type="text" size="small">删除</el-button>
+            <!-- <el-button type="text" size="small">编辑</el-button> -->
+          </template>
+        </el-table-column>
+
+        <el-table-column fixed="right" label="" width="60">
+          <template slot-scope="scope">
             <el-button @click="handleItemDownClick(scope.row)" type="text" size="small">
               <i class="el-icon-arrow-down"/>
             </el-button>
             <el-button @click="handleItemUpClick(scope.row)" type="text" size="small">
               <i class="el-icon-arrow-up"/>
             </el-button>
-            <!-- <el-button type="text" size="small">编辑</el-button> -->
           </template>
         </el-table-column>
       </el-table>
